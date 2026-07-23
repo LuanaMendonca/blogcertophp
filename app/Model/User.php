@@ -1,71 +1,45 @@
 <?php
 App::uses('AppModel', 'Model');
-/**
- * User Model
- *
- * @property Post $Post
- */
-class User extends AppModel {
+App::uses('AuthComponent', 'Controller/Component');
 
-/**
- * Validation rules
- *
- * @var array
- */
+class User extends AppModel
+{
 	public $validate = array(
-		'name' => array(
+		'username' => array(
 			'notBlank' => array(
-				'rule' => array('notBlank'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
+				'rule' => 'notBlank',
+				'message' => 'Informe o nome de usuário.'
 			),
-		),
-		'email' => array(
-			'email' => array(
-				'rule' => array('email'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
+			'unique' => array(
+				'rule' => 'isUnique',
+				'message' => 'Este nome de usuário já está sendo utilizado.'
+			)
 		),
 		'password' => array(
 			'notBlank' => array(
-				'rule' => array('notBlank'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
+				'rule' => 'notBlank',
+				'message' => 'Informe uma senha.'
+			)
 		),
-	);
 
-	// The Associations below have been created with all possible keys, those that are not needed can be removed
-
-/**
- * hasMany associations
- *
- * @var array
- */
-	public $hasMany = array(
-		'Post' => array(
-			'className' => 'Post',
-			'foreignKey' => 'user_id',
-			'dependent' => false,
-			'conditions' => '',
-			'fields' => '',
-			'order' => '',
-			'limit' => '',
-			'offset' => '',
-			'exclusive' => '',
-			'finderQuery' => '',
-			'counterQuery' => ''
+		'role' => array(
+			'notBlank' => array(
+				'rule' => 'notBlank',
+				'message' => 'Informe o perfil.'
+			),
+			'validRole' => array(
+				'rule' => array('inList', array('admin', 'author')),
+				'message' => 'Selecione um perfil, autor ou administrador.'
+			)
 		)
 	);
-
+	public function beforeSave($options = array())
+	{
+		if (isset($this->data[$this->alias]['password'])) {
+			$this->data[$this->alias]['password'] = AuthComponent::password(
+				$this->data[$this->alias]['password']
+			);
+		}
+		return true;
+	}
 }
