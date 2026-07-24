@@ -12,7 +12,6 @@ class Post extends AppModel
 			'foreignKey' => 'user_id'
 		)
 	);
-
 	public $validate = array(
 		'titulo' => array(
 			'obrigatorio' => array(
@@ -36,6 +35,17 @@ class Post extends AppModel
 				),
 				'message' => 'Selecione um status válido.'
 			)
+		),
+		'user_id' => array(
+			// A qui é obrigatorio preencher o ID de usuario
+			'obrigatorio' => array(
+				'rule' => 'notBlank',
+				'message' => 'Informe o autor da postagem.'
+
+			),
+			'numerico' => array(
+				'rule' => 'numeric',
+	            'message' => 'O autor é inválido.'
+			),
 		)
-	);
 }
