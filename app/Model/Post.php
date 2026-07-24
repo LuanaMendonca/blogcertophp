@@ -48,4 +48,5 @@ class Post extends AppModel
 	            'message' => 'O autor é inválido.'
 			),
 		)
+	);
 }
