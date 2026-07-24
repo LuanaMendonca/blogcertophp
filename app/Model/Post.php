@@ -19,25 +19,25 @@ class Post extends AppModel
 				'message' => 'Informe o título da postagem.'
 			)
 		),
-
 		'conteudo' => array(
 			'obrigatorio' => array(
 				'rule' => 'notBlank',
 				'message' => 'Informe o conteúdo da postagem.'
 			)
 		),
-
 		'status' => array(
 			'valido' => array(
+
 				'rule' => array(
 					'inList',
 					array('ativo', 'inativo')
 				),
+
 				'message' => 'Selecione um status válido.'
 			)
 		),
 		'user_id' => array(
-			// A qui é obrigatorio preencher o ID de usuario
+			// A qui é obrigatorio preencher o ID de usuário
 			'obrigatorio' => array(
 				'rule' => 'notBlank',
 				'message' => 'Informe o autor da postagem.'
