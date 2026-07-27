@@ -12,13 +12,23 @@ class UsersController extends AppController
 		parent::beforeFilter();
 
 		$this->Auth->allow('add', 'login');
-
+	}
+	public function login(){
 		if ($this->request->is('post')) {
+
 			if ($this->Auth->login()) {
-				$this->Session->write('Auth.User', $this->request->data);
+				//login deu certo
+				return $this->redirect(
+					array(
+						'controller' => 'posts',
+						'action' => 'index'
+					)
+				);
 			}
-
-
+			else{
+				//login deu errado
+				$this->Session->setFlash('Usuário ou senha inválidos.');
+			}
 		}
 	}
 }
