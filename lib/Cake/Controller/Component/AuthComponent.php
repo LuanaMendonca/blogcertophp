@@ -53,8 +53,8 @@ class AuthComponent extends Component {
 	public $components = array('Session', 'Flash', 'RequestHandler');
 
 /**
- * An array of authentication objects to use for authenticating users. You can configure
- * multiple adapters and they will be checked sequentially when users are identified.
+ * An array of authentication objects to use for authenticating Users. You can configure
+ * multiple adapters and they will be checked sequentially when Users are identified.
  *
  * ```
  *	$this->Auth->authenticate = array(
@@ -94,7 +94,7 @@ class AuthComponent extends Component {
 	protected $_authenticateObjects = array();
 
 /**
- * An array of authorization objects to use for authorizing users. You can configure
+ * An array of authorization objects to use for authorizing Users. You can configure
  * multiple adapters and they will be checked sequentially when authorization checks are done.
  *
  * ```
@@ -176,12 +176,12 @@ class AuthComponent extends Component {
 
 /**
  * A URL (defined as a string or array) to the controller action that handles
- * logins. Defaults to `/users/login`.
+ * logins. Defaults to `/Users/login`.
  *
  * @var mixed
  */
 	public $loginAction = array(
-		'controller' => 'users',
+		'controller' => 'Users',
 		'action' => 'login',
 		'plugin' => null
 	);
@@ -274,7 +274,7 @@ class AuthComponent extends Component {
 	}
 
 /**
- * Main execution method. Handles redirecting of invalid users, and processing
+ * Main execution method. Handles redirecting of invalid Users, and processing
  * of login form data.
  *
  * @param Controller $controller A reference to the instantiating controller object

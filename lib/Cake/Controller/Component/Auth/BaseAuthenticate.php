@@ -29,7 +29,7 @@ abstract class BaseAuthenticate implements CakeEventListener {
  * - `fields` The fields to use to identify a user by.
  * - `userModel` The model name of the User, defaults to User.
  * - `userFields` Array of fields to retrieve from User model, null to retrieve all. Defaults to null.
- * - `scope` Additional conditions to use when looking up and authenticating users,
+ * - `scope` Additional conditions to use when looking up and authenticating Users,
  *    i.e. `array('User.is_active' => 1).`
  * - `recursive` The value of the recursive key passed to find(). Defaults to 0.
  * - `contain` Extra models to contain and store in session.

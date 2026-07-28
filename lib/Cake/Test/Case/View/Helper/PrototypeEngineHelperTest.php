@@ -259,7 +259,7 @@ class PrototypeEngineHelperTest extends CakeTestCase {
 		$this->assertEquals($expected, $result);
 
 		$this->Proto->get('#submit');
-		$result = $this->Proto->request('/users/login', array(
+		$result = $this->Proto->request('/Users/login', array(
 			'before' => 'login.create(event)',
 			'complete' => 'login.complete(event)',
 			'update' => 'auth',

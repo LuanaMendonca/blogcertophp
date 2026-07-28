@@ -317,7 +317,7 @@ class SqliteTest extends CakeTestCase {
 		$Model = new Model(array(
 			'name' => 'User',
 			'ds' => 'test',
-			'table' => 'users'
+			'table' => 'Users'
 		));
 
 		$this->Dbo->cacheSources = true;
@@ -607,8 +607,8 @@ SQL;
 	public function testFetchRowColumnParsing() {
 		$this->loadFixtures('User');
 		$sql = 'SELECT "User"."id", "User"."user", "User"."password", "User"."created", (1 + 1) AS "two" ' .
-			'FROM "users" AS "User" WHERE ' .
-			'"User"."id" IN (SELECT MAX("id") FROM "users") ' .
+			'FROM "Users" AS "User" WHERE ' .
+			'"User"."id" IN (SELECT MAX("id") FROM "Users") ' .
 			'OR "User.id" IN (5, 6, 7, 8)';
 		$result = $this->Dbo->fetchRow($sql);
 
@@ -626,10 +626,10 @@ SQL;
 		$this->assertEquals($expected, $result);
 
 		$sql = 'SELECT "User"."id", "User"."user" ' .
-			'FROM "users" AS "User" WHERE "User"."id" = 4 ' .
+			'FROM "Users" AS "User" WHERE "User"."id" = 4 ' .
 			'UNION ' .
 			'SELECT "User"."id", "User"."user" ' .
-			'FROM "users" AS "User" WHERE "User"."id" = 3';
+			'FROM "Users" AS "User" WHERE "User"."id" = 3';
 		$result = $this->Dbo->fetchRow($sql);
 
 		$expected = array(
@@ -652,7 +652,7 @@ SQL;
 			COUNT(*) AS User__count,
 			COUNT(CASE id WHEN 2 THEN 1 ELSE NULL END) as User__case,
 			AVG(CAST("User"."id" AS BIGINT)) AS User__bigint
-			FROM "users" AS "User"
+			FROM "Users" AS "User"
 			WHERE "User"."id" > 0';
 		$result = $this->Dbo->fetchRow($sql);
 
@@ -676,7 +676,7 @@ SQL;
 		$sql = $this->Dbo->buildStatement(
 			array(
 				'fields' => array('id'),
-				'table' => 'users',
+				'table' => 'Users',
 				'alias' => 'User',
 				'order' => array('id'),
 				'limit' => 1,
@@ -684,7 +684,7 @@ SQL;
 			),
 			$model
 		);
-		$expected = 'SELECT id FROM users AS "User"   WHERE 1 = 1   ORDER BY "id" ASC  LIMIT 1';
+		$expected = 'SELECT id FROM Users AS "User"   WHERE 1 = 1   ORDER BY "id" ASC  LIMIT 1';
 		$this->assertEquals($expected, $sql);
 	}
 }

@@ -602,15 +602,15 @@ class PaginatorHelperTest extends CakeTestCase {
 
 		Router::reload();
 		Router::setRequestInfo(array(
-			array('pass' => array(), 'named' => array(), 'controller' => 'users', 'plugin' => null, 'action' => 'admin_index', 'prefix' => 'admin', 'admin' => true, 'url' => array('ext' => 'html', 'url' => 'admin/users')),
-			array('base' => '', 'here' => '/admin/users', 'webroot' => '/')
+			array('pass' => array(), 'named' => array(), 'controller' => 'Users', 'plugin' => null, 'action' => 'admin_index', 'prefix' => 'admin', 'admin' => true, 'url' => array('ext' => 'html', 'url' => 'admin/Users')),
+			array('base' => '', 'here' => '/admin/Users', 'webroot' => '/')
 		));
-		Router::parse('/admin/users');
+		Router::parse('/admin/Users');
 		$this->Paginator->request->params['paging']['Article']['page'] = 1;
 		$result = $this->Paginator->next('Next');
 		$expected = array(
 			'span' => array('class' => 'next'),
-			'a' => array('href' => '/admin/users/index/page:2', 'rel' => 'next'),
+			'a' => array('href' => '/admin/Users/index/page:2', 'rel' => 'next'),
 			'Next',
 			'/a',
 			'/span'

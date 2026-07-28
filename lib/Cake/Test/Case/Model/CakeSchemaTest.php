@@ -425,7 +425,7 @@ class SchemaPrefixAuthUser extends CakeTestModel {
  *
  * @var string
  */
-	public $useTable = 'users';
+	public $useTable = 'Users';
 }
 
 /**

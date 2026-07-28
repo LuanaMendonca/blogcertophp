@@ -1348,7 +1348,7 @@ SQL;
 			->will($this->returnValue($test));
 
 		$model8Table = $test->fullTableName($this->Model->TestModel8);
-		$usersTable = $test->fullTableName('users');
+		$usersTable = $test->fullTableName('Users');
 
 		$search = "LEFT JOIN $model8Table AS `TestModel8` ON " .
 			"(`TestModel8`.`name` != 'larry' AND `TestModel9`.`test_model8_id` = `TestModel8`.`id`) " .
@@ -1360,7 +1360,7 @@ SQL;
 		$test->read($this->Model, array(
 			'joins' => array(
 				array(
-					'table' => 'users',
+					'table' => 'Users',
 					'alias' => 'User',
 					'type' => 'LEFT',
 					'conditions' => array('TestModel9.id = User.test_id')
@@ -4006,12 +4006,12 @@ SQL;
 			->with("UPDATE `$db`.`articles` SET `field1` = 'value1'  WHERE 1 = 1");
 
 		$this->Dbo->expects($this->at(1))->method('execute')
-			->with("UPDATE `$db`.`articles` AS `Article` LEFT JOIN `$db`.`users` AS `User` ON " .
+			->with("UPDATE `$db`.`articles` AS `Article` LEFT JOIN `$db`.`Users` AS `User` ON " .
 				"(`Article`.`user_id` = `User`.`id`)" .
 				" SET `Article`.`field1` = 2  WHERE 2=2");
 
 		$this->Dbo->expects($this->at(2))->method('execute')
-			->with("UPDATE `$db`.`articles` AS `Article` LEFT JOIN `$db`.`users` AS `User` ON " .
+			->with("UPDATE `$db`.`articles` AS `Article` LEFT JOIN `$db`.`Users` AS `User` ON " .
 				"(`Article`.`user_id` = `User`.`id`)" .
 				" SET `Article`.`field1` = 'value'  WHERE `index` = 'val'");
 
@@ -4038,12 +4038,12 @@ SQL;
 			->with("DELETE  FROM `$db`.`articles`  WHERE 1 = 1");
 
 		$this->Dbo->expects($this->at(1))->method('execute')
-			->with("DELETE `Article` FROM `$db`.`articles` AS `Article` LEFT JOIN `$db`.`users` AS `User` " .
+			->with("DELETE `Article` FROM `$db`.`articles` AS `Article` LEFT JOIN `$db`.`Users` AS `User` " .
 				"ON (`Article`.`user_id` = `User`.`id`)" .
 				"  WHERE 1 = 1");
 
 		$this->Dbo->expects($this->at(2))->method('execute')
-			->with("DELETE `Article` FROM `$db`.`articles` AS `Article` LEFT JOIN `$db`.`users` AS `User` " .
+			->with("DELETE `Article` FROM `$db`.`articles` AS `Article` LEFT JOIN `$db`.`Users` AS `User` " .
 				"ON (`Article`.`user_id` = `User`.`id`)" .
 				"  WHERE 2=2");
 		$Article = new Article();

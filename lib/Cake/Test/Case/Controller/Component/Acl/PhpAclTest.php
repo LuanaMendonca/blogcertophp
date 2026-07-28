@@ -141,8 +141,8 @@ class PhpAclTest extends CakeTestCase {
 		$this->assertEquals(array(array('Role/IT')), $this->Acl->Aro->roles($user));
 		$this->assertTrue($this->Acl->check($user, '/rules/debugging/stats/pageload'));
 		$this->assertTrue($this->Acl->check($user, '/rules/debugging/sql/queries'));
-		// Role/default is allowed users dashboard, but not Role/IT
-		$this->assertFalse($this->Acl->check($user, '/controllers/users/dashboard'));
+		// Role/default is allowed Users dashboard, but not Role/IT
+		$this->assertFalse($this->Acl->check($user, '/controllers/Users/dashboard'));
 
 		$this->assertFalse($this->Acl->check($user, '/controllers/invoices/send'));
 		// wee add an more specific entry for user foo to also inherit from Role/accounting
@@ -156,8 +156,8 @@ class PhpAclTest extends CakeTestCase {
  * @return void
  */
 	public function testCheck() {
-		$this->assertTrue($this->Acl->check('jan', '/controllers/users/Dashboard'));
-		$this->assertTrue($this->Acl->check('some_unknown_role', '/controllers/users/Dashboard'));
+		$this->assertTrue($this->Acl->check('jan', '/controllers/Users/Dashboard'));
+		$this->assertTrue($this->Acl->check('some_unknown_role', '/controllers/Users/Dashboard'));
 		$this->assertTrue($this->Acl->check('Role/admin', 'foo/bar'));
 		$this->assertTrue($this->Acl->check('role/admin', '/foo/bar'));
 		$this->assertTrue($this->Acl->check('jan', 'foo/bar'));
@@ -166,7 +166,7 @@ class PhpAclTest extends CakeTestCase {
 		$this->assertTrue($this->Acl->check(array('User' => array('username' => 'jan')), '/controllers/bar/bll'));
 		$this->assertTrue($this->Acl->check('Role/database_manager', 'controllers/db/create'));
 		$this->assertTrue($this->Acl->check('User/db_manager_2', 'controllers/db/create'));
-		$this->assertFalse($this->Acl->check('db_manager_2', '/controllers/users/Dashboard'));
+		$this->assertFalse($this->Acl->check('db_manager_2', '/controllers/Users/Dashboard'));
 
 		// inheritance: hardy -> reports -> data_analyst -> database_manager
 		$this->assertTrue($this->Acl->check('User/hardy', 'controllers/db/create'));

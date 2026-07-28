@@ -8887,7 +8887,7 @@ class ModelReadTest extends BaseModelTest {
 	public function testQueryRespectsCacheQueriesAsSecondArgument() {
 		$model = new User();
 		$model->save(array('user' => 'Chuck'));
-		$userTableName = $this->db->fullTableName('users');
+		$userTableName = $this->db->fullTableName('Users');
 
 		$getUserNameFromDb = function ($cacheArgument) use ($model, $userTableName) {
 			$query = sprintf('SELECT u.user FROM %s u WHERE id=%d', $userTableName, $model->id);
@@ -8914,7 +8914,7 @@ class ModelReadTest extends BaseModelTest {
 	public function testQueryRespectsCacheQueriesAsThirdArgument() {
 		$model = new User();
 		$model->save(array('user' => 'Chuck'));
-		$userTableName = $this->db->fullTableName('users');
+		$userTableName = $this->db->fullTableName('Users');
 
 		$getUserNameFromDb = function ($cacheArgument) use ($model, $userTableName) {
 			$query = sprintf('SELECT u.user FROM %s u WHERE id=?', $userTableName);
@@ -8940,7 +8940,7 @@ class ModelReadTest extends BaseModelTest {
 	public function testQueryTakesModelCacheQueriesValueAsDefaultForOneArgument() {
 		$model = new User();
 		$model->save(array('user' => 'Chuck'));
-		$userTableName = $this->db->fullTableName('users');
+		$userTableName = $this->db->fullTableName('Users');
 
 		$getUserNameFromDb = function () use ($model, $userTableName) {
 			$query = sprintf('SELECT u.user FROM %s u WHERE id=%d', $userTableName, $model->id);
@@ -8965,7 +8965,7 @@ class ModelReadTest extends BaseModelTest {
 	public function testQueryTakesModelCacheQueriesValueAsDefaultForTwoArguments() {
 		$model = new User();
 		$model->save(array('user' => 'Chuck'));
-		$userTableName = $this->db->fullTableName('users');
+		$userTableName = $this->db->fullTableName('Users');
 
 		$getUserNameFromDb = function () use ($model, $userTableName) {
 			$query = sprintf('SELECT u.user FROM %s u WHERE id=?', $userTableName);

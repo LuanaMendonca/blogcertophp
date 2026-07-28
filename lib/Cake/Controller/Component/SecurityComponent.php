@@ -176,7 +176,7 @@ class SecurityComponent extends Component {
 /**
  * Controls whether or not CSRF tokens are use and burn. Set to false to not generate
  * new tokens on each request. One token will be reused until it expires. This reduces
- * the chances of users getting invalid requests because of token consumption.
+ * the chances of Users getting invalid requests because of token consumption.
  * It has the side effect of making CSRF less secure, as tokens are reusable.
  *
  * @var bool

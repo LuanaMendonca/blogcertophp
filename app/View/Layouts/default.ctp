@@ -14,7 +14,7 @@
  * @license       https://opensource.org/licenses/mit-license.php MIT License
  */
 
-$cakeDescription = __d('cake_dev', 'Tudo de pets: guia sobre cuidados de pets');
+$cakeDescription = __d('cake_dev', 'Pets: blog sobre cuidados e adoção');
 $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 ?>
 <!DOCTYPE html>
@@ -58,7 +58,7 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 					echo $this->Html->link(
 						'Sair',
 						array(
-							'controller' => 'users',
+							'controller' => 'Users',
 							'action' => 'logout'
 						)
 					);

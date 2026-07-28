@@ -33,13 +33,13 @@ App::uses('View', 'View');
  * all the named view variables:
  *
  * ```
- * $this->set(compact('posts', 'users', 'stuff'));
- * $this->set('_serialize', array('posts', 'users'));
+ * $this->set(compact('posts', 'Users', 'stuff'));
+ * $this->set('_serialize', array('posts', 'Users'));
  * ```
  *
  * The above would generate a JSON object that looks like:
  *
- * `{"posts": [...], "users": [...]}`
+ * `{"posts": [...], "Users": [...]}`
  *
  * If you don't use the `_serialize` key, you will need a view. You can use extended
  * views to provide layout-like functionality.

@@ -36,7 +36,7 @@ App::uses('CakeEventManager', 'Event');
  *
  * DBO-backed object data model.
  * Automatically selects a database table name based on a pluralized lowercase object class name
- * (i.e. class 'User' => table 'users'; class 'Man' => table 'men')
+ * (i.e. class 'User' => table 'Users'; class 'Man' => table 'men')
  * The table is required to have at least 'id auto_increment' primary key.
  *
  * @package       Cake.Model

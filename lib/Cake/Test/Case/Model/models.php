@@ -4966,7 +4966,7 @@ class ScaffoldUser extends CakeTestModel {
  *
  * @var string
  */
-	public $useTable = 'users';
+	public $useTable = 'Users';
 
 /**
  * hasMany property
@@ -5198,7 +5198,7 @@ class UserHasOneArticle extends AppModel {
  *
  * @var string
  */
-	public $useTable = 'users';
+	public $useTable = 'Users';
 
 /**
  * hasOne property

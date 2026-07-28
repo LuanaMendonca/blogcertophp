@@ -42,8 +42,8 @@ class XmlViewTest extends CakeTestCase {
 		$Request = new CakeRequest();
 		$Response = new CakeResponse();
 		$Controller = new Controller($Request, $Response);
-		$data = array('users' => array('user' => array('user1', 'user2')));
-		$Controller->set(array('users' => $data, '_serialize' => 'users'));
+		$data = array('Users' => array('user' => array('user1', 'user2')));
+		$Controller->set(array('Users' => $data, '_serialize' => 'Users'));
 		$View = new XmlView($Controller);
 		$output = $View->render(false);
 
@@ -62,18 +62,18 @@ class XmlViewTest extends CakeTestCase {
 				)
 			)
 		);
-		$Controller->set(array('users' => $data, '_serialize' => 'users'));
+		$Controller->set(array('Users' => $data, '_serialize' => 'Users'));
 		$View = new XmlView($Controller);
 		$output = $View->render(false);
 
-		$expected = Xml::build(array('response' => array('users' => $data)))->asXML();
+		$expected = Xml::build(array('response' => array('Users' => $data)))->asXML();
 		$this->assertSame($expected, $output);
 
 		$Controller->set('_rootNode', 'custom_name');
 		$View = new XmlView($Controller);
 		$output = $View->render(false);
 
-		$expected = Xml::build(array('custom_name' => array('users' => $data)))->asXML();
+		$expected = Xml::build(array('custom_name' => array('Users' => $data)))->asXML();
 		$this->assertSame($expected, $output);
 	}
 
@@ -250,12 +250,12 @@ class XmlViewTest extends CakeTestCase {
 				)
 			)
 		);
-		$Controller->set('users', $data);
+		$Controller->set('Users', $data);
 		$View = new XmlView($Controller);
 		$output = $View->render('index');
 
 		$expected = array(
-			'users' => array('user' => array('user1', 'user2'))
+			'Users' => array('user' => array('user1', 'user2'))
 		);
 		$expected = Xml::build($expected)->asXML();
 		$this->assertSame($expected, $output);

@@ -358,7 +358,7 @@ class SchemaShellTest extends CakeTestCase {
 		$this->assertRegExp('/public \$auth_users/', $contents);
 		$this->assertRegExp('/public \$authors/', $contents);
 		$this->assertRegExp('/public \$test_plugin_comments/', $contents);
-		$this->assertNotRegExp('/public \$users/', $contents);
+		$this->assertNotRegExp('/public \$Users/', $contents);
 		$this->assertNotRegExp('/public \$articles/', $contents);
 		CakePlugin::unload();
 	}

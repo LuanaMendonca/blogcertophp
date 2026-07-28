@@ -27,7 +27,7 @@ App::uses('BaseAuthorize', 'Controller/Component/Auth');
  *	}
  * ```
  *
- * the above is simple implementation that would only authorize users of the 'admin' role to access
+ * the above is simple implementation that would only authorize Users of the 'admin' role to access
  * admin routing.
  *
  * @package       Cake.Controller.Component.Auth

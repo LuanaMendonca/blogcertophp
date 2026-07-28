@@ -9,7 +9,7 @@ class AppController extends Controller
 
 		'Auth' => array(
 			'loginAction' => array(
-				'controller' => 'users',
+				'controller' => 'Users',
 				'action' => 'login'
 			),
 
@@ -19,7 +19,7 @@ class AppController extends Controller
 			),
 
 			'logoutRedirect' => array(
-				'controller' => 'users',
+				'controller' => 'Users',
 				'action' => 'login'
 			),
 

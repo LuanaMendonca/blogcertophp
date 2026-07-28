@@ -424,7 +424,7 @@ class PostgresTest extends CakeTestCase {
 		$this->loadFixtures('User');
 		$db1 = ConnectionManager::getDataSource('test');
 
-		$table = $db1->fullTableName('users', false);
+		$table = $db1->fullTableName('Users', false);
 		$password = '5f4dcc3b5aa765d61d8327deb882cf99';
 		$db1->execute(
 			"INSERT INTO {$table} (\"user\", password) VALUES ('mariano', '{$password}')"

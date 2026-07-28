@@ -22,7 +22,7 @@ App::uses('BasicAuthenticate', 'Controller/Component/Auth');
  * password using `DigestAuthenticate::password()`. If you wish to use digest authentication alongside other
  * authentication methods, its recommended that you store the digest authentication separately.
  *
- * Clients using Digest Authentication must support cookies. Since AuthComponent identifies users based
+ * Clients using Digest Authentication must support cookies. Since AuthComponent identifies Users based
  * on Session contents, clients without support for cookies will not function properly.
  *
  * ### Using Digest auth
@@ -61,7 +61,7 @@ class DigestAuthenticate extends BasicAuthenticate {
  * - `fields` The fields to use to identify a user by.
  * - `userModel` The model name of the User, defaults to User.
  * - `userFields` Array of fields to retrieve from User model, null to retrieve all. Defaults to null.
- * - `scope` Additional conditions to use when looking up and authenticating users,
+ * - `scope` Additional conditions to use when looking up and authenticating Users,
  *    i.e. `array('User.is_active' => 1).`
  * - `recursive` The value of the recursive key passed to find(). Defaults to 0.
  * - `contain` Extra models to contain and store in session.

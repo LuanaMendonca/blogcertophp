@@ -1559,7 +1559,7 @@ class DboSourceTest extends CakeTestCase {
 		$sql = $db->buildStatement(
 			array(
 				'fields' => array('id'),
-				'table' => 'users',
+				'table' => 'Users',
 				'alias' => 'User',
 				'order' => array('id'),
 				'limit' => 1,
@@ -1567,7 +1567,7 @@ class DboSourceTest extends CakeTestCase {
 			),
 			$this->Model
 		);
-		$expected = 'SELECT id FROM users AS User   WHERE 1 = 1   ORDER BY id ASC  LIMIT 1  FOR UPDATE';
+		$expected = 'SELECT id FROM Users AS User   WHERE 1 = 1   ORDER BY id ASC  LIMIT 1  FOR UPDATE';
 		$this->assertEquals($expected, $sql);
 	}
 

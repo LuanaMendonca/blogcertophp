@@ -236,9 +236,9 @@ class JqueryEngineHelperTest extends CakeTestCase {
  * @return void
  */
 	public function testRequestWithQueryStringArguments() {
-		$url = '/users/search/sort:User.name/direction:desc?nome=&cpm=&audience=public';
+		$url = '/Users/search/sort:User.name/direction:desc?nome=&cpm=&audience=public';
 		$result = $this->Jquery->request($url);
-		$expected = '$.ajax({url:"\\/users\\/search\\/sort:User.name\\/direction:desc?nome=&cpm=&audience=public"});';
+		$expected = '$.ajax({url:"\\/Users\\/search\\/sort:User.name\\/direction:desc?nome=&cpm=&audience=public"});';
 		$this->assertEquals($expected, $result);
 	}
 

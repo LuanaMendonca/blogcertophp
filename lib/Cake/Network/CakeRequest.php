@@ -124,7 +124,7 @@ class CakeRequest implements ArrayAccess {
 
 /**
  * Copy of php://input. Since this stream can only be read once in most SAPI's
- * keep a copy of it so users don't need to know about that detail.
+ * keep a copy of it so Users don't need to know about that detail.
  *
  * @var string
  */

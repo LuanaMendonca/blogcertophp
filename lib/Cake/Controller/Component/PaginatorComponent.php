@@ -74,7 +74,7 @@ class PaginatorComponent extends Component {
  * Pagination settings. These settings control pagination at a general level.
  * You can also define sub arrays for pagination settings for specific models.
  *
- * - `maxLimit` The maximum limit users can choose to view. Defaults to 100
+ * - `maxLimit` The maximum limit Users can choose to view. Defaults to 100
  * - `limit` The initial number of items per page. Defaults to 20.
  * - `page` The starting page, defaults to 1.
  * - `paramType` What type of parameters you want pagination to use?
@@ -107,8 +107,8 @@ class PaginatorComponent extends Component {
 	);
 
 /**
- * A list of parameters users are allowed to set using request parameters. Modifying
- * this list will allow users to have more influence over pagination,
+ * A list of parameters Users are allowed to set using request parameters. Modifying
+ * this list will allow Users to have more influence over pagination,
  * be careful with what you permit.
  *
  * @var array
@@ -369,7 +369,7 @@ class PaginatorComponent extends Component {
  * sort + direction keys will be converted into the model friendly order key.
  *
  * You can use the whitelist parameter to control which columns/fields are available for sorting.
- * This helps prevent users from ordering large result sets on un-indexed values.
+ * This helps prevent Users from ordering large result sets on un-indexed values.
  *
  * Any columns listed in the sort whitelist will be implicitly trusted. You can use this to sort
  * on synthetic columns, or columns added in custom find operations that may not exist in the schema.

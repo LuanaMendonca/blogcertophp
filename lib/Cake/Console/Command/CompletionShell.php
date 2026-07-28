@@ -18,7 +18,7 @@ App::uses('AppShell', 'Console/Command');
 
 /**
  * Provide command completion shells such as bash.
- * 
+ *
  * @package       Cake.Console.Command
  */
 class CompletionShell extends AppShell {
@@ -39,7 +39,7 @@ class CompletionShell extends AppShell {
 	}
 
 /**
- * Not called by the autocomplete shell - this is for curious users
+ * Not called by the autocomplete shell - this is for curious Users
  *
  * @return void
  */
@@ -88,7 +88,7 @@ class CompletionShell extends AppShell {
 
 /**
  * Guess autocomplete from the whole argument string
- * 
+ *
  * @return void
  */
 	public function fuzzy() {

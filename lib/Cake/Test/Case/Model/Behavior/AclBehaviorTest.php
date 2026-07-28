@@ -110,7 +110,7 @@ class AclUser extends CakeTestModel {
  *
  * @var string
  */
-	public $useTable = 'users';
+	public $useTable = 'Users';
 
 /**
  * actsAs property

@@ -18,7 +18,7 @@ App::uses('BaseAuthenticate', 'Controller/Component/Auth');
  * Basic Authentication adapter for AuthComponent.
  *
  * Provides Basic HTTP authentication support for AuthComponent. Basic Auth will
- * authenticate users against the configured userModel and verify the username
+ * authenticate Users against the configured userModel and verify the username
  * and passwords match.
  *
  * ### Using Basic auth
@@ -41,7 +41,7 @@ App::uses('BaseAuthenticate', 'Controller/Component/Auth');
  * by this authentication provider which triggers the login dialog in the browser/client.
  *
  * You may also want to use `$this->Auth->unauthorizedRedirect = false;`.
- * By default, unauthorized users are redirected to the referrer URL,
+ * By default, unauthorized Users are redirected to the referrer URL,
  * `AuthComponent::$loginAction`, or '/'. If unauthorizedRedirect is set to
  * false, a ForbiddenException exception is thrown instead of redirecting.
  *

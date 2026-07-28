@@ -37,7 +37,6 @@ class Post extends AppModel
 			)
 		),
 		'user_id' => array(
-			// A qui é obrigatorio preencher o ID de usuário
 			'obrigatorio' => array(
 				'rule' => 'notBlank',
 				'message' => 'Informe o autor da postagem.'

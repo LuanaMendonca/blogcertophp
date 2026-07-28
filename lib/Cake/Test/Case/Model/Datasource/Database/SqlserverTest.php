@@ -773,7 +773,7 @@ SQL;
 
 		$query = array(
 			'fields' => array('id'),
-			'table' => 'users',
+			'table' => 'Users',
 			'alias' => 'User',
 			'order' => array('id'),
 			'limit' => 1,
@@ -781,11 +781,11 @@ SQL;
 		);
 
 		$sql = $db->buildStatement($query, $this->model);
-		$expected = 'SELECT  TOP 1 id FROM users AS [User]  WITH (UPDLOCK)   WHERE 1 = 1   ORDER BY [id] ASC';
+		$expected = 'SELECT  TOP 1 id FROM Users AS [User]  WITH (UPDLOCK)   WHERE 1 = 1   ORDER BY [id] ASC';
 		$this->assertEquals($expected, $sql);
 
 		$sql = $db->buildStatement(array('offset' => 15) + $query, $this->model);
-		$expected = 'SELECT id FROM users AS [User]  WITH (UPDLOCK)   WHERE 1 = 1   ORDER BY [id] ASC  OFFSET 15 ROWS FETCH FIRST 1 ROWS ONLY';
+		$expected = 'SELECT id FROM Users AS [User]  WITH (UPDLOCK)   WHERE 1 = 1   ORDER BY [id] ASC  OFFSET 15 ROWS FETCH FIRST 1 ROWS ONLY';
 		$this->assertEquals($expected, $sql);
 	}
 
@@ -841,7 +841,7 @@ SQL;
 
 		$query = array(
 			'fields' => array('id'),
-			'table' => 'users',
+			'table' => 'Users',
 			'alias' => 'User',
 			'order' => array('id'),
 			'limit' => 1,
@@ -849,14 +849,14 @@ SQL;
 		);
 
 		$sql = $db->buildStatement($query, $this->model);
-		$expected = 'SELECT  TOP 1 id FROM users AS [User]  WITH (UPDLOCK)   WHERE 1 = 1   ORDER BY [id] ASC';
+		$expected = 'SELECT  TOP 1 id FROM Users AS [User]  WITH (UPDLOCK)   WHERE 1 = 1   ORDER BY [id] ASC';
 		$this->assertEquals($expected, $sql);
 
 		$sql = $db->buildStatement(array('offset' => 15) + $query, $this->model);
 		$expected = <<<SQL
 SELECT TOP 1 * FROM (
 SELECT id, ROW_NUMBER() OVER ( ORDER BY [id] ASC) AS _cake_page_rownum_
-FROM users AS [User]  WITH (UPDLOCK)   WHERE 1 = 1
+FROM Users AS [User]  WITH (UPDLOCK)   WHERE 1 = 1
 ) AS _cake_paging_
 WHERE _cake_paging_._cake_page_rownum_ > 15
 ORDER BY _cake_paging_._cake_page_rownum_

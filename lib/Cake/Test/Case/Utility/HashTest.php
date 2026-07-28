@@ -513,20 +513,20 @@ class HashTest extends CakeTestCase {
 		$expected = array('foo' => 'no-bar', 'bar' => 'no-foo');
 		$this->assertEquals($expected, Hash::merge($a, $b));
 
-		$a = array('users' => array('bob', 'jim'));
-		$b = array('users' => array('lisa', 'tina'));
-		$expected = array('users' => array('bob', 'jim', 'lisa', 'tina'));
+		$a = array('Users' => array('bob', 'jim'));
+		$b = array('Users' => array('lisa', 'tina'));
+		$expected = array('Users' => array('bob', 'jim', 'lisa', 'tina'));
 		$this->assertEquals($expected, Hash::merge($a, $b));
 
-		$a = array('users' => array('jim', 'bob'));
-		$b = array('users' => 'none');
-		$expected = array('users' => 'none');
+		$a = array('Users' => array('jim', 'bob'));
+		$b = array('Users' => 'none');
+		$expected = array('Users' => 'none');
 		$this->assertEquals($expected, Hash::merge($a, $b));
 
-		$a = array('users' => array('lisa' => array('id' => 5, 'pw' => 'secret')), 'cakephp');
-		$b = array('users' => array('lisa' => array('pw' => 'new-pass', 'age' => 23)), 'ice-cream');
+		$a = array('Users' => array('lisa' => array('id' => 5, 'pw' => 'secret')), 'cakephp');
+		$b = array('Users' => array('lisa' => array('pw' => 'new-pass', 'age' => 23)), 'ice-cream');
 		$expected = array(
-			'users' => array('lisa' => array('id' => 5, 'pw' => 'new-pass', 'age' => 23)),
+			'Users' => array('lisa' => array('id' => 5, 'pw' => 'new-pass', 'age' => 23)),
 			'cakephp',
 			'ice-cream'
 		);
@@ -534,11 +534,11 @@ class HashTest extends CakeTestCase {
 		$this->assertEquals($expected, $result);
 
 		$c = array(
-			'users' => array('lisa' => array('pw' => 'you-will-never-guess', 'age' => 25, 'pet' => 'dog')),
+			'Users' => array('lisa' => array('pw' => 'you-will-never-guess', 'age' => 25, 'pet' => 'dog')),
 			'chocolate'
 		);
 		$expected = array(
-			'users' => array('lisa' => array('id' => 5, 'pw' => 'you-will-never-guess', 'age' => 25, 'pet' => 'dog')),
+			'Users' => array('lisa' => array('id' => 5, 'pw' => 'you-will-never-guess', 'age' => 25, 'pet' => 'dog')),
 			'cakephp',
 			'ice-cream',
 			'chocolate'
@@ -1474,10 +1474,10 @@ class HashTest extends CakeTestCase {
 		$menus = array(
 			'blogs' => array('title' => 'Blogs', 'weight' => 3),
 			'comments' => array('title' => 'Comments', 'weight' => 2),
-			'users' => array('title' => 'Users', 'weight' => 1),
+			'Users' => array('title' => 'Users', 'weight' => 1),
 		);
 		$expected = array(
-			'users' => array('title' => 'Users', 'weight' => 1),
+			'Users' => array('title' => 'Users', 'weight' => 1),
 			'comments' => array('title' => 'Comments', 'weight' => 2),
 			'blogs' => array('title' => 'Blogs', 'weight' => 3),
 		);

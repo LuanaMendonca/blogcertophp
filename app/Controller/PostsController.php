@@ -7,9 +7,19 @@ class PostsController extends AppController
 	public function beforeFilter()
 	{
 		parent::beforeFilter();
-		$this->Auth->allow('index');
+		$this->Auth->allow('visitas');
 	}
-
+	public function visitas(){
+		$posts = $this->Post->find(
+			'all',
+			array(
+				'conditions' => array(
+					'Post.status' => 'ativo'
+				)
+			)
+		);
+		$this->set('posts', $posts);
+	}
 	public function index()
 	{
 		$posts = $this->Post->find('all');
@@ -100,6 +110,4 @@ class PostsController extends AppController
 
 		return $this->redirect(array('action' => 'index'));
 	}
-
-
 }

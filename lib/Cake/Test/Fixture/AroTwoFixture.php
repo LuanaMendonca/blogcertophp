@@ -47,7 +47,7 @@ class AroTwoFixture extends CakeTestFixture {
 		array('parent_id' => null, 'model' => null, 'foreign_key' => null, 'alias' => 'root', 'lft' => '1', 'rght' => '20'),
 		array('parent_id' => 1, 'model' => 'Group', 'foreign_key' => '1', 'alias' => 'admin', 'lft' => '2', 'rght' => '5'),
 		array('parent_id' => 1, 'model' => 'Group', 'foreign_key' => '2', 'alias' => 'managers', 'lft' => '6', 'rght' => '9'),
-		array('parent_id' => 1, 'model' => 'Group', 'foreign_key' => '3', 'alias' => 'users', 'lft' => '10', 'rght' => '19'),
+		array('parent_id' => 1, 'model' => 'Group', 'foreign_key' => '3', 'alias' => 'Users', 'lft' => '10', 'rght' => '19'),
 		array('parent_id' => 2, 'model' => 'User', 'foreign_key' => '1', 'alias' => 'Bobs', 'lft' => '3', 'rght' => '4'),
 		array('parent_id' => 3, 'model' => 'User', 'foreign_key' => '2', 'alias' => 'Lumbergh', 'lft' => '7', 'rght' => '8'),
 		array('parent_id' => 4, 'model' => 'User', 'foreign_key' => '3', 'alias' => 'Samir', 'lft' => '11', 'rght' => '12'),

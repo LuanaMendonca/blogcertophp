@@ -90,7 +90,7 @@ class Hash {
  * Given a set of User array data, from a `$User->find('all')` call:
  *
  * - `1.User.name` Get the name of the user at index 1.
- * - `{n}.User.name` Get the name of every user in the set of users.
+ * - `{n}.User.name` Get the name of every user in the set of Users.
  * - `{n}.User[id].name` Get the name of every user with an id key.
  * - `{n}.User[id>=2].name` Get the name of every user with an id key greater than or equal to 2.
  * - `{n}.User[username=/^paul/]` Get User elements with username matching `^paul`.
@@ -452,7 +452,7 @@ class Hash {
  * Usage:
  *
  * ```
- * $result = Hash::format($users, array('{n}.User.id', '{n}.User.name'), '%s : %s');
+ * $result = Hash::format($Users, array('{n}.User.id', '{n}.User.name'), '%s : %s');
  * ```
  *
  * The `$format` string can use any format options that `vsprintf()` and `sprintf()` do.

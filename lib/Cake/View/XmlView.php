@@ -37,13 +37,13 @@ App::uses('Hash', 'Utility');
  * top level element named `<response>` containing all the named view variables:
  *
  * ```
- * $this->set(compact('posts', 'users', 'stuff'));
- * $this->set('_serialize', array('posts', 'users'));
+ * $this->set(compact('posts', 'Users', 'stuff'));
+ * $this->set('_serialize', array('posts', 'Users'));
  * ```
  *
  * The above would generate a XML object that looks like:
  *
- * `<response><posts>...</posts><users>...</users></response>`
+ * `<response><posts>...</posts><Users>...</Users></response>`
  *
  * If you don't use the `_serialize` key, you will need a view. You can use extended
  * views to provide layout like functionality.

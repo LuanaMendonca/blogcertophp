@@ -268,7 +268,7 @@ class SanitizeTest extends CakeTestCase {
 		$result = Sanitize::paranoid($string);
 		$this->assertEquals($expected, $result);
 
-		$string = "x' AND 1=(SELECT COUNT(*) FROM users); --";
+		$string = "x' AND 1=(SELECT COUNT(*) FROM Users); --";
 		$expected = 'xAND1SELECTCOUNTFROMusers';
 		$result = Sanitize::paranoid($string);
 		$this->assertEquals($expected, $result);

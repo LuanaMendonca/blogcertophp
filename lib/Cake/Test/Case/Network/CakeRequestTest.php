@@ -788,10 +788,10 @@ class CakeRequestTest extends CakeTestCase {
  */
 	public function testRefererBasePath() {
 		$request = new CakeRequest('some/path');
-		$request->url = 'users/login';
+		$request->url = 'Users/login';
 		$request->webroot = '/waves/';
 		$request->base = '/waves';
-		$request->here = '/waves/users/login';
+		$request->here = '/waves/Users/login';
 
 		$_SERVER['HTTP_REFERER'] = FULL_BASE_URL . '/waves/waves/add';
 

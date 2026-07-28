@@ -458,7 +458,7 @@ class FileEngineTest extends CakeTestCase {
  */
 	public function testClearingWithRepeatWrites() {
 		Cache::config('repeat', array(
-			'engine' => 'File', 'groups' => array('users')
+			'engine' => 'File', 'groups' => array('Users')
 		));
 
 		$this->assertTrue(Cache::write('user', 'rchavik', 'repeat'));
@@ -470,7 +470,7 @@ class FileEngineTest extends CakeTestCase {
 		$this->assertTrue(Cache::write('user', 'ADmad', 'repeat'));
 		$this->assertEquals('ADmad', Cache::read('user', 'repeat'));
 
-		Cache::clearGroup('users', 'repeat');
+		Cache::clearGroup('Users', 'repeat');
 		$this->assertEquals(false, Cache::read('user', 'repeat'));
 
 		$this->assertTrue(Cache::write('user', 'markstory', 'repeat'));

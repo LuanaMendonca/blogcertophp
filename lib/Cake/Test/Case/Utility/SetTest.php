@@ -166,20 +166,20 @@ class SetTest extends CakeTestCase {
 		$b = array('foo' => 'no-bar', 'bar' => 'no-foo');
 		$this->assertEquals(array('foo' => 'no-bar', 'bar' => 'no-foo'), Set::merge($a, $b));
 
-		$a = array('users' => array('bob', 'jim'));
-		$b = array('users' => array('lisa', 'tina'));
-		$this->assertEquals(array('users' => array('bob', 'jim', 'lisa', 'tina')), Set::merge($a, $b));
+		$a = array('Users' => array('bob', 'jim'));
+		$b = array('Users' => array('lisa', 'tina'));
+		$this->assertEquals(array('Users' => array('bob', 'jim', 'lisa', 'tina')), Set::merge($a, $b));
 
-		$a = array('users' => array('jim', 'bob'));
-		$b = array('users' => 'none');
-		$this->assertEquals(array('users' => 'none'), Set::merge($a, $b));
+		$a = array('Users' => array('jim', 'bob'));
+		$b = array('Users' => 'none');
+		$this->assertEquals(array('Users' => 'none'), Set::merge($a, $b));
 
-		$a = array('users' => array('lisa' => array('id' => 5, 'pw' => 'secret')), 'cakephp');
-		$b = array('users' => array('lisa' => array('pw' => 'new-pass', 'age' => 23)), 'ice-cream');
-		$this->assertEquals(array('users' => array('lisa' => array('id' => 5, 'pw' => 'new-pass', 'age' => 23)), 'cakephp', 'ice-cream'), Set::merge($a, $b));
+		$a = array('Users' => array('lisa' => array('id' => 5, 'pw' => 'secret')), 'cakephp');
+		$b = array('Users' => array('lisa' => array('pw' => 'new-pass', 'age' => 23)), 'ice-cream');
+		$this->assertEquals(array('Users' => array('lisa' => array('id' => 5, 'pw' => 'new-pass', 'age' => 23)), 'cakephp', 'ice-cream'), Set::merge($a, $b));
 
-		$c = array('users' => array('lisa' => array('pw' => 'you-will-never-guess', 'age' => 25, 'pet' => 'dog')), 'chocolate');
-		$expected = array('users' => array('lisa' => array('id' => 5, 'pw' => 'you-will-never-guess', 'age' => 25, 'pet' => 'dog')), 'cakephp', 'ice-cream', 'chocolate');
+		$c = array('Users' => array('lisa' => array('pw' => 'you-will-never-guess', 'age' => 25, 'pet' => 'dog')), 'chocolate');
+		$expected = array('Users' => array('lisa' => array('id' => 5, 'pw' => 'you-will-never-guess', 'age' => 25, 'pet' => 'dog')), 'cakephp', 'ice-cream', 'chocolate');
 		$this->assertEquals($expected, Set::merge($a, $b, $c));
 
 		$this->assertEquals($expected, Set::merge($a, $b, array(), $c));
@@ -324,10 +324,10 @@ class SetTest extends CakeTestCase {
 		$menus = array(
 			'blogs' => array('title' => 'Blogs', 'weight' => 3),
 			'comments' => array('title' => 'Comments', 'weight' => 2),
-			'users' => array('title' => 'Users', 'weight' => 1),
+			'Users' => array('title' => 'Users', 'weight' => 1),
 			);
 		$expected = array(
-			'users' => array('title' => 'Users', 'weight' => 1),
+			'Users' => array('title' => 'Users', 'weight' => 1),
 			'comments' => array('title' => 'Comments', 'weight' => 2),
 			'blogs' => array('title' => 'Blogs', 'weight' => 3),
 			);
@@ -1966,11 +1966,11 @@ class SetTest extends CakeTestCase {
 				'Data' => array('user' => 'phpnut', 'name' => 'Larry E. Masters'))),
 			array('User' => array('id' => 25, 'group_id' => 1,
 				'Data' => array('user' => 'gwoo', 'name' => 'The Gwoo'))));
-		$result = Set::combine($b, 'users.{n}.User.id');
+		$result = Set::combine($b, 'Users.{n}.User.id');
 		$expected = array(2 => null, 14 => null, 25 => null);
 		$this->assertEquals($expected, $result);
 
-		$result = Set::combine($b, 'users.{n}.User.id', 'users.{n}.User.non-existant');
+		$result = Set::combine($b, 'Users.{n}.User.id', 'Users.{n}.User.non-existant');
 		$expected = array(2 => null, 14 => null, 25 => null);
 		$this->assertEquals($expected, $result);
 
@@ -2819,7 +2819,7 @@ class SetTest extends CakeTestCase {
 			<channel>
 			<title>Cake PHP Google Group</title>
 			<link>http://groups.google.com/group/cake-php</link>
-			<description>Search this group before posting anything. There are over 20,000 posts and it&amp;#39;s very likely your question was answered before. Visit the IRC channel #cakephp at irc.freenode.net for live chat with users and developers of Cake. If you post, tell us the version of Cake, PHP, and database.</description>
+			<description>Search this group before posting anything. There are over 20,000 posts and it&amp;#39;s very likely your question was answered before. Visit the IRC channel #cakephp at irc.freenode.net for live chat with Users and developers of Cake. If you post, tell us the version of Cake, PHP, and database.</description>
 			<language>en</language>
 				<item>
 				<title>constructng result array when using findall</title>
@@ -2846,7 +2846,7 @@ class SetTest extends CakeTestCase {
 			'channel' => array(
 				'title' => 'Cake PHP Google Group',
 				'link' => 'http://groups.google.com/group/cake-php',
-				'description' => 'Search this group before posting anything. There are over 20,000 posts and it&#39;s very likely your question was answered before. Visit the IRC channel #cakephp at irc.freenode.net for live chat with users and developers of Cake. If you post, tell us the version of Cake, PHP, and database.',
+				'description' => 'Search this group before posting anything. There are over 20,000 posts and it&#39;s very likely your question was answered before. Visit the IRC channel #cakephp at irc.freenode.net for live chat with Users and developers of Cake. If you post, tell us the version of Cake, PHP, and database.',
 				'language' => 'en',
 				'item' => array(
 					array(
@@ -2921,7 +2921,7 @@ class SetTest extends CakeTestCase {
 			<channel>
 			<title>Cake PHP Google Group</title>
 			<link>http://groups.google.com/group/cake-php</link>
-			<description>Search this group before posting anything. There are over 20,000 posts and it&amp;#39;s very likely your question was answered before. Visit the IRC channel #cakephp at irc.freenode.net for live chat with users and developers of Cake. If you post, tell us the version of Cake, PHP, and database.</description>
+			<description>Search this group before posting anything. There are over 20,000 posts and it&amp;#39;s very likely your question was answered before. Visit the IRC channel #cakephp at irc.freenode.net for live chat with Users and developers of Cake. If you post, tell us the version of Cake, PHP, and database.</description>
 			<language>en</language>
 				<item>
 				<title>constructng result array when using findall</title>
@@ -2956,7 +2956,7 @@ class SetTest extends CakeTestCase {
 			'channel' => array(
 				'title' => 'Cake PHP Google Group',
 				'link' => 'http://groups.google.com/group/cake-php',
-				'description' => 'Search this group before posting anything. There are over 20,000 posts and it&#39;s very likely your question was answered before. Visit the IRC channel #cakephp at irc.freenode.net for live chat with users and developers of Cake. If you post, tell us the version of Cake, PHP, and database.',
+				'description' => 'Search this group before posting anything. There are over 20,000 posts and it&#39;s very likely your question was answered before. Visit the IRC channel #cakephp at irc.freenode.net for live chat with Users and developers of Cake. If you post, tell us the version of Cake, PHP, and database.',
 				'language' => 'en',
 				'item' => array(
 					array(

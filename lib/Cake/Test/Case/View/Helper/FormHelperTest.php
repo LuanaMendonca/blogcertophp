@@ -3472,7 +3472,7 @@ class FormHelperTest extends CakeTestCase {
 		);
 		$this->assertTags($result, $expected);
 
-		$this->View->viewVars['users'] = array('value' => 'good', 'other' => 'bad');
+		$this->View->viewVars['Users'] = array('value' => 'good', 'other' => 'bad');
 		$this->Form->request->data = array('Model' => array('user_id' => 'value'));
 
 		$result = $this->Form->input('Model.user_id', array('empty' => true));
@@ -3495,7 +3495,7 @@ class FormHelperTest extends CakeTestCase {
 		);
 		$this->assertTags($result, $expected);
 
-		$this->View->viewVars['users'] = array('value' => 'good', 'other' => 'bad');
+		$this->View->viewVars['Users'] = array('value' => 'good', 'other' => 'bad');
 		$this->Form->request->data = array('Thing' => array('user_id' => null));
 		$result = $this->Form->input('Thing.user_id', array('empty' => 'Some Empty'));
 		$expected = array(
@@ -3518,7 +3518,7 @@ class FormHelperTest extends CakeTestCase {
 		);
 		$this->assertTags($result, $expected);
 
-		$this->View->viewVars['users'] = array('value' => 'good', 'other' => 'bad');
+		$this->View->viewVars['Users'] = array('value' => 'good', 'other' => 'bad');
 		$this->Form->request->data = array('Thing' => array('user_id' => 'value'));
 		$result = $this->Form->input('Thing.user_id', array('empty' => 'Some Empty'));
 		$expected = array(
@@ -3541,7 +3541,7 @@ class FormHelperTest extends CakeTestCase {
 		);
 		$this->assertTags($result, $expected);
 
-		$this->View->viewVars['users'] = array('value' => 'good', 'other' => 'bad');
+		$this->View->viewVars['Users'] = array('value' => 'good', 'other' => 'bad');
 		$this->Form->request->data = array('User' => array('User' => array('value')));
 		$result = $this->Form->input('User.User', array('empty' => true));
 		$expected = array(
@@ -3623,7 +3623,7 @@ class FormHelperTest extends CakeTestCase {
  * @return void
  */
 	public function testInputOverridingMagicSelectType() {
-		$this->View->viewVars['users'] = array('value' => 'good', 'other' => 'bad');
+		$this->View->viewVars['Users'] = array('value' => 'good', 'other' => 'bad');
 		$result = $this->Form->input('Model.user_id', array('type' => 'text'));
 		$expected = array(
 			'div' => array('class' => 'input text'),
@@ -3654,7 +3654,7 @@ class FormHelperTest extends CakeTestCase {
  * @return void
  */
 	public function testInputMagicTypeDoesNotOverride() {
-		$this->View->viewVars['users'] = array('value' => 'good', 'other' => 'bad');
+		$this->View->viewVars['Users'] = array('value' => 'good', 'other' => 'bad');
 		$result = $this->Form->input('Model.user', array('type' => 'checkbox'));
 		$expected = array(
 			'div' => array('class' => 'input checkbox'),
@@ -3712,7 +3712,7 @@ class FormHelperTest extends CakeTestCase {
  * @return void
  */
 	public function testInputMagicSelectChangeToRadio() {
-		$this->View->viewVars['users'] = array('value' => 'good', 'other' => 'bad');
+		$this->View->viewVars['Users'] = array('value' => 'good', 'other' => 'bad');
 		$result = $this->Form->input('Model.user_id', array('type' => 'radio'));
 		$this->assertRegExp('/input type="radio"/', $result);
 	}
@@ -8282,7 +8282,7 @@ class FormHelperTest extends CakeTestCase {
 /**
  * testInputDateMaxYear method
  *
- * Let's say we want to only allow users born from 2006 to 2008 to register
+ * Let's say we want to only allow Users born from 2006 to 2008 to register
  * This being the first singup page, we still don't have any data
  *
  * @return void
@@ -9280,7 +9280,7 @@ class FormHelperTest extends CakeTestCase {
 		$result = $this->Form->create('User', array('url' => array('action' => 'login')));
 		$expected = array(
 			'form' => array(
-				'action' => '/users/login',
+				'action' => '/Users/login',
 				'id' => 'UserLoginForm',
 				'method' => 'post',
 				'accept-charset' => $encoding
@@ -9294,7 +9294,7 @@ class FormHelperTest extends CakeTestCase {
 		$result = $this->Form->create('User', array('url' => array('action' => 'login')));
 		$expected = array(
 			'form' => array(
-				'id' => 'UserLoginForm', 'method' => 'post', 'action' => '/users/login',
+				'id' => 'UserLoginForm', 'method' => 'post', 'action' => '/Users/login',
 				'accept-charset' => $encoding
 			),
 			'div' => array('style' => 'display:none;'),
@@ -9303,10 +9303,10 @@ class FormHelperTest extends CakeTestCase {
 		);
 		$this->assertTags($result, $expected);
 
-		$result = $this->Form->create('User', array('url' => '/users/login'));
+		$result = $this->Form->create('User', array('url' => '/Users/login'));
 		$expected = array(
 			'form' => array(
-				'action' => '/users/login',
+				'action' => '/Users/login',
 				'id' => 'UserAddForm',
 				'method' => 'post',
 				'accept-charset' => $encoding
@@ -9321,7 +9321,7 @@ class FormHelperTest extends CakeTestCase {
 		$result = $this->Form->create('User', array('url' => array('action' => 'signup')));
 		$expected = array(
 			'form' => array(
-				'id' => 'UserSignupForm', 'method' => 'post', 'action' => '/users/signup',
+				'id' => 'UserSignupForm', 'method' => 'post', 'action' => '/Users/signup',
 				'accept-charset' => $encoding
 			),
 			'div' => array('style' => 'display:none;'),
@@ -9483,7 +9483,7 @@ class FormHelperTest extends CakeTestCase {
  * @return void
  */
 	public function testCreateCustomRoute() {
-		Router::connect('/login', array('controller' => 'users', 'action' => 'login'));
+		Router::connect('/login', array('controller' => 'Users', 'action' => 'login'));
 		$encoding = strtolower(Configure::read('App.encoding'));
 
 		$result = $this->Form->create('User', array('url' => array('action' => 'login')));
@@ -11183,7 +11183,7 @@ class FormHelperTest extends CakeTestCase {
  * @return void
  */
 	public function testLastActionWithNamedNumeric() {
-		$here = '/users/index/page:1';
+		$here = '/Users/index/page:1';
 
 		$this->Form->request->here = $here;
 		$this->Form->create('User');
@@ -11199,7 +11199,7 @@ class FormHelperTest extends CakeTestCase {
  * @return void
  */
 	public function testLastActionWithNamedString() {
-		$here = '/users/index/foo:bar';
+		$here = '/Users/index/foo:bar';
 
 		$this->Form->request->here = $here;
 		$this->Form->create('User');
