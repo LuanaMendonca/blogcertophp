@@ -42,8 +42,8 @@ class UsersController extends AppController
 		if ($this->request->is('post')) {
 
 			$this->User->create();
+
 			$data = $this->request->data;
-			$data['User']['role'] = 'author';
 
 			if ($this->User->save($data)) {
 
@@ -60,4 +60,11 @@ class UsersController extends AppController
 			}
 		}
 	}
+	public function logout(){
+		$this->Session->setFlash('Você saiu da sua conta.');
+
+		return $this->redirect($this->Auth->logout());
+
+	}
+
 }

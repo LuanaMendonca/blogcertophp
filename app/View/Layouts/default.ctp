@@ -14,7 +14,7 @@
  * @license       https://opensource.org/licenses/mit-license.php MIT License
  */
 
-$cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework');
+$cakeDescription = __d('cake_dev', 'Tudo de pets: guia sobre cuidados de pets');
 $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 ?>
 <!DOCTYPE html>
@@ -42,9 +42,35 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 		</div>
 		<div id="content">
 
+			<?php if ($this->Session->check('Auth.User')): ?>
+
+				<div style="margin-bottom:20px; font-weight:bold;">
+					<?php echo h($this->Session->read('Auth.User.username')); ?>
+					-
+					<?php
+					if ($this->Session->read('Auth.User.role') == 'admin') {
+						echo 'Administrador';
+					} else {
+						echo 'Autor';
+					}
+					echo ' | ';
+
+					echo $this->Html->link(
+						'Sair',
+						array(
+							'controller' => 'users',
+							'action' => 'logout'
+						)
+					);
+					?>
+				</div>
+
+			<?php endif; ?>
+
 			<?php echo $this->Flash->render(); ?>
 
 			<?php echo $this->fetch('content'); ?>
+
 		</div>
 		<div id="footer">
 			<?php echo $this->Html->link(

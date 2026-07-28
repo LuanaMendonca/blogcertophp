@@ -2,6 +2,7 @@
 
 <?php
 	echo $this->Form->create('User');
+
 	echo $this->Form->input('username', array(
 		'label' => 'Usuário'
 		)
@@ -10,5 +11,18 @@
 		'label' => 'Senha'
 		)
 	);
+
+	echo $this->Form->input(
+		'role', array(
+			'label' => 'Perfil',
+			'type' => 'select',
+			'options' => array(
+				'author' => 'Autor',
+				'admin' => 'Administrador'
+			),
+		'empty' => 'Selecione um perfil'
+		)
+	);
+
 	echo $this->Form->end('Cadastrar');
 ?>
