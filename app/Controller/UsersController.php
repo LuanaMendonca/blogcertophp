@@ -120,12 +120,6 @@ class UsersController extends AppController
 		$this->Auth->logout();
 
 		$this->Session->setFlash('Você saiu da sua conta.');
-
-		return $this->redirect(
-			array(
-				'controller' => 'posts',
-				'action' => 'visitas'
-			)
-		);
+		return $this->redirect('/posts/visitas');
 	}
 }
