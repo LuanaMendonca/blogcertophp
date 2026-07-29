@@ -9,7 +9,7 @@ foreach ($usuarios as $usuario) {
 	echo '<strong>Usuário:</strong> ';
 	echo h($usuario['User']['username']);
 
-	echo '<br>';
+	echo '<br><br>';
 
 	echo '<strong>Tipo de Perfil:</strong> ';
 	echo h($usuario['User']['role']);
@@ -35,7 +35,6 @@ foreach ($usuarios as $usuario) {
 			$usuario['User']['id']
 		)
 	);
-
 	echo '</p>';
 
 	echo '<hr>';

@@ -53,13 +53,17 @@ class PostsController extends AppController
 
 		$post = $this->Post->findById($id);
 
+		$this->set('post', $post);
+
 		if (!$post) {
 			throw new NotFoundException('Post não encontrado.');
 		}
 
 		$usuario = $this->Auth->user();
 
-		if ($usuario['role'] != 'admin' && $usuario['id'] != $post['Post']['user_id']) {
+		if ( $usuario['role'] != 'superadmin'
+			&& $usuario['role'] != 'admin'
+			&& $usuario['id'] != $post['Post']['user_id']) {
 			throw new ForbiddenException('Você não tem permissão para editar esta postagem.');
 		}
 
@@ -94,7 +98,10 @@ class PostsController extends AppController
 			throw new NotFoundException('Post não encontrado.');
 		}
 
-		if ($usuario['role'] != 'admin' && $usuario['id'] != $post['Post']['user_id']) {
+		if ($usuario['role'] != 'superadmin' &&
+			$usuario['role'] != 'admin' &&
+			$usuario['id'] != $post['Post']['user_id']) {
+
 			throw new ForbiddenException('Você não pode excluir esta postagem.');
 		}
 

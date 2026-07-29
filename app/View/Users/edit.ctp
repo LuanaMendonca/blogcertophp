@@ -10,9 +10,11 @@
 			'label' => 'Perfil do usuário',
 			'options' => array(
 				'author' => 'Autor',
-				'admin' => 'Administrador'
+				'admin' => 'Administrador',
+				'superadmin' => 'Super Administrador'
 			)
 		)
 	);
+
 	echo $this->Form->end('Salvar alterações');
 ?>
