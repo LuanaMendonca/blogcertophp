@@ -12,17 +12,5 @@
 		)
 	);
 
-	echo $this->Form->input(
-		'role', array(
-			'label' => 'Perfil',
-			'type' => 'select',
-			'options' => array(
-				'author' => 'Autor',
-				'admin' => 'Administrador'
-			),
-		'empty' => 'Selecione um perfil'
-		)
-	);
-
 	echo $this->Form->end('Cadastrar');
 ?>

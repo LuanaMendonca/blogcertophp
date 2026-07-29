@@ -31,7 +31,10 @@
 			<?php
 			$usuarioLogado = $this->Session->read('Auth.User');
 
-			$pode_editar = $usuarioLogado['role'] == 'admin' || $usuarioLogado['id'] == $post['Post']['user_id'];
+			$pode_editar =
+				$usuarioLogado['role'] == 'superadmin' ||
+				$usuarioLogado['role'] == 'admin' ||
+				$usuarioLogado['id'] == $post['Post']['user_id'];
 
 			if ($pode_editar) {
 				echo $this->Html->link(

@@ -19,8 +19,8 @@ class AppController extends Controller
 			),
 
 			'logoutRedirect' => array(
-				'controller' => 'Users',
-				'action' => 'login'
+				'controller' => 'posts',
+				'action' => 'visitas'
 			),
 
 			'authError' => 'Você não tem permissão para acessar esta página.',

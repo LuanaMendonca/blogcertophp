@@ -68,6 +68,7 @@ class PostsController extends AppController
 			$this->Post->id = $id;
 
 			if ($this->Post->save($this->request->data)) {
+
 				$this->Session->setFlash('Post editado com sucesso.');
 				return $this->redirect(array('action' => 'index'));
 			}

@@ -1,6 +1,6 @@
 <h2>Postagens do blog</h2>
 
-<p>Esta é a tela pública para visitantes.</p>
+<p>Querido Visitante faça cadastro ou login para poder interagir com as postagem ou criar as suas.</p>
 
 <?php
 
@@ -14,9 +14,7 @@
 			'class' => 'btn btn-primary',
 		)
 	);
-
-	echo '<hr>'. '|';
-
+	echo '<br><br>';
 	echo $this->Html->link(
 		'Cadastrar Usuário',
 		array(
@@ -33,10 +31,9 @@
 	} else {
 		foreach ($posts as $post) {
 			echo '<br><br>';
-			echo '-------------------------------------------------------------------------------------------------------------';
+			echo '<hr>';
 			echo '<h3>' . h($post['Post']['titulo']) . '</h3>';
 			echo '<h1>' . h($post['Post']['conteudo']) . '</h1>';
-			echo '-------------------------------------------------------------------------------------------------------------';
 
 		}
 	}

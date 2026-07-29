@@ -1,6 +1,9 @@
 <?php
 App::uses('AppModel', 'Model');
-App::uses('AuthComponent', 'Controller/Component');
+App::uses(
+	'SimplePasswordHasher',
+	'Controller/Component/Auth'
+);
 
 class User extends AppModel
 {
@@ -28,18 +31,24 @@ class User extends AppModel
 				'message' => 'Informe o perfil.'
 			),
 			'validRole' => array(
-				'rule' => array('inList', array('admin', 'author')),
+				'rule' => array('inList', array('superadmin','admin', 'author')),
 				'message' => 'Selecione um perfil, autor ou administrador.'
 			)
 		)
 	);
 	public function beforeSave($options = array())
 	{
-		if (isset($this->data[$this->alias]['password'])) {
-			$this->data[$this->alias]['password'] = AuthComponent::password(
-				$this->data[$this->alias]['password']
-			);
+		if (empty($this->data[$this->alias]['password'])) {
+			return true;
 		}
+
+		$senha = $this->data[$this->alias]['password'];
+
+		$geradorDeSenha = new SimplePasswordHasher();
+
+		$this->data[$this->alias]['password'] =
+			$geradorDeSenha->hash($senha);
+
 		return true;
 	}
 }

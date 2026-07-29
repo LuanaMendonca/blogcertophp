@@ -4,12 +4,12 @@
 	echo $this->Form->create('User');
 
 	echo $this->Form->input('username', array(
-	'label' => 'Usuário'
+		'label' => 'Usuário'
 		)
 	);
 
 	echo $this->Form->input('password', array(
-	'label' => 'Senha'
+		'label' => 'Senha'
 		)
 	);
 

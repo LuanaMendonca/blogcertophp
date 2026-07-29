@@ -50,6 +50,8 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 					<?php
 					if ($this->Session->read('Auth.User.role') == 'admin') {
 						echo 'Administrador';
+					}elseif ($this->Session->read('Auth.User.role') == 'superadmin') {
+						echo 'Super Administrador';
 					} else {
 						echo 'Autor';
 					}
