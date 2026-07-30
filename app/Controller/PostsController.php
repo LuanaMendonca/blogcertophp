@@ -22,7 +22,17 @@ class PostsController extends AppController
 	}
 	public function index()
 	{
-		$posts = $this->Post->find('all');
+		$conditions = array();
+		$busca = $this->request->query('busca');
+
+		$posts = $this->Post->find(
+			'all',
+			array(
+				'conditions' => $conditions
+
+			)
+		);
+
 		$this->set('posts', $posts);
 	}
 	public function add()
