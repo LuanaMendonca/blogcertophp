@@ -1,61 +1,91 @@
-<h1>Lista de postagens: </h1>
+<h1>Lista de postagens:</h1>
 
-<?php if (empty($posts)): ?>
+<?php
 
-    <p> Nenhuma postagem cadastrada.</p>
+if (empty($posts)) {
 
-<?php else: ?>
+	echo '<p>Nenhuma postagem cadastrada.</p>';
 
-    <?php foreach ($posts as $post): ?>
+} else {
 
-        <h2>
-            <?php
-				echo h($post['Post']['titulo']);
-			?>
-        </h2>
+	foreach ($posts as $post) {
 
-        <p>
-            <?php
-				echo h($post['Post']['conteudo']); ?>
-        </p>
+		echo '<h2>';
+		echo h($post['Post']['titulo']);
+		echo '</h2>';
 
-		<p>
-			Autor:<?php echo h($post['User']['username']); ?>
-		</p>
+		echo '<p>';
+		echo h($post['Post']['conteudo']);
+		echo '</p>';
 
-        <p>
-            Status: <?php echo h($post['Post']['status']); ?>
-        </p>
+		echo '<p>';
+		echo 'Autor: ';
+		echo h($post['User']['username']);
+		echo '</p>';
 
-		<p>
-			<?php
-			$usuarioLogado = $this->Session->read('Auth.User');
+		if (!empty($post['Post']['created'])) {
 
-			$pode_editar =
+			$data = $this->Time->format(
+				'd/m/Y',
+				$post['Post']['created']
+			);
+
+			$hora = $this->Time->format(
+				'H:i',
+				$post['Post']['created']
+			);
+
+			echo '<p>';
+			echo 'Publicado em: ' . $data . ' às ' . $hora;
+			echo '</p>';
+		}
+
+		echo '<p>';
+		echo 'Status: ';
+		echo h($post['Post']['status']);
+		echo '</p>';
+
+		$usuarioLogado = $this->Session->read('Auth.User');
+
+		$pode_editar =
+			!empty($usuarioLogado) &&
+			(
 				$usuarioLogado['role'] == 'superadmin' ||
 				$usuarioLogado['role'] == 'admin' ||
-				$usuarioLogado['id'] == $post['Post']['user_id'];
+				$usuarioLogado['id'] == $post['Post']['user_id']
+			);
 
-			if ($pode_editar) {
-				echo $this->Html->link(
-					'Editar',
-					'/posts/edit/' . $post['Post']['id']
-				);
+		if ($pode_editar) {
 
-				echo ' | ';
+			echo '<div>';
 
-				echo $this->Html->link(
-					'Excluir',
-					'/posts/delete/' . $post['Post']['id'],
-					array(),
-					'Tem certeza que deseja excluir esta postagem?'
-				);
-			}
-			?>
-		</p>
+			echo $this->Html->link(
+				'Editar',
+				array(
+					'controller' => 'posts',
+					'action' => 'edit',
+					$post['Post']['id']
+				)
+			);
 
-        <hr>
+			echo ' | ';
 
-    <?php endforeach; ?>
+			echo $this->Form->postLink(
+				'Excluir',
+				array(
+					'controller' => 'posts',
+					'action' => 'delete',
+					$post['Post']['id']
+				),
+				array(),
+				'Tem certeza que deseja excluir esta postagem?'
+			);
 
-<?php endif; ?>
+			echo '</div>';
+		}
+
+		echo '<hr>';
+	}
+}
+
+?>

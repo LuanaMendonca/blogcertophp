@@ -96,6 +96,8 @@ class PostsController extends AppController
 
 	public function delete($id = null)
 	{
+		$this->request->allowMethod('post');
+
 		if (!$id) {
 			throw new NotFoundException('Post não encontrado.');
 		}

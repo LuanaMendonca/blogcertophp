@@ -42,6 +42,7 @@ class AppController extends Controller
 		'Html',
 		'Form',
 		'Session'
+		'Time'
 	);
 
 	public function beforeFilter()
