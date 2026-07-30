@@ -1,5 +1,9 @@
 <h2>Usuários cadastrados</h2>
 
+<h2> Editar Usuários </h2>
+
+
+
 <?php
 
 foreach ($usuarios as $usuario) {
@@ -17,7 +21,7 @@ foreach ($usuarios as $usuario) {
 	echo '<br><br>';
 
 	echo $this->Html->link(
-		'Editar',
+		'Editar Perfil',
 		array(
 			'controller' => 'users',
 			'action' => 'edit',
@@ -35,6 +39,9 @@ foreach ($usuarios as $usuario) {
 			$usuario['User']['id']
 		)
 	);
+
+
+
 	echo '</p>';
 
 	echo '<hr>';

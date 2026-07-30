@@ -95,8 +95,15 @@ class UsersController extends AppController
 				'Somente o superadministrador pode editar usuários.'
 			);
 		}
-
 		if ($this->request->is(array('post', 'put'))) {
+
+			if (empty($this->request->data['User']['password'])) {
+				unset($this->request->data['User']['password']);
+			}
+
+			if (empty($this->request->data['User']['username'])) {
+				unset($this->request->data['User']['username']);
+			}
 
 			$this->User->id = $id;
 

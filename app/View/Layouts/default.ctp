@@ -61,6 +61,16 @@ $cakeDescription = __d('cake_dev', 'Pets: blog sobre cuidados e adoção');
 							'action' => 'logout'
 						)
 					);
+
+					echo ' | ';
+
+					echo $this->Html->link(
+						'Adicionar postagem',
+						array(
+							'controller' => 'posts',
+							'action' => 'add'
+						)
+					);
 					?>
 				</div>
 
