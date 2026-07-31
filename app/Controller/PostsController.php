@@ -25,6 +25,13 @@ class PostsController extends AppController
 		$conditions = array();
 		$busca = $this->request->query('busca');
 
+		if(!empty($busca)){
+			$conditions['OR'] = array(
+				'Post.titulo LIKE' =>'%'.$busca.'%',
+				'Post.conteudo LIKE' =>'%'.$busca.'%'
+			);
+		}
+
 		$posts = $this->Post->find(
 			'all',
 			array(

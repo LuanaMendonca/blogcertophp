@@ -6,6 +6,8 @@
 			<?php
 				echo $this->Form->create('Post');
 
+
+
 				echo $this->Form->input('titulo', array(
 					'label' => 'Título',
 					'div' => 'form-group',
