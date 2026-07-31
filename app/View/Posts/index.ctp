@@ -2,6 +2,8 @@
 
 <?php
 
+$usuarioLogado = $this->Session->read('Auth.User');
+
 if (empty($posts)) {
 
 	echo '<p>Nenhuma postagem cadastrada.</p>';
@@ -25,19 +27,18 @@ if (empty($posts)) {
 
 		if (!empty($post['Post']['created'])) {
 
-			$data = $this->Time->format(
-				'd/m/Y',
-				$post['Post']['created']
-			);
-
-			$hora = $this->Time->format(
-				'H:i',
-				$post['Post']['created']
-			);
+			$dataPost = strtotime($post['Post']['created']);
 
 			echo '<p>';
-			echo 'Publicado em: ' . $data . ' às ' . $hora;
+			echo 'Publicado em: ';
+			echo date('d/m/Y', $dataPost);
+			echo ' às ';
+			echo date('H:i', $dataPost);
 			echo '</p>';
+
+		} else {
+
+			echo '<p>Data da publicação não informada.</p>';
 		}
 
 		echo '<p>';
@@ -45,9 +46,7 @@ if (empty($posts)) {
 		echo h($post['Post']['status']);
 		echo '</p>';
 
-		$usuarioLogado = $this->Session->read('Auth.User');
-
-		$pode_editar =
+		$podeEditar =
 			!empty($usuarioLogado) &&
 			(
 				$usuarioLogado['role'] == 'superadmin' ||
@@ -55,7 +54,7 @@ if (empty($posts)) {
 				$usuarioLogado['id'] == $post['Post']['user_id']
 			);
 
-		if ($pode_editar) {
+		if ($podeEditar) {
 
 			echo '<div>';
 
