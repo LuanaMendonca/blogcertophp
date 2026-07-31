@@ -35,6 +35,7 @@ $cakeDescription = __d('cake_dev', 'Pets: blog sobre cuidados e adoção');
 					?>
 					<?php
 					if ($this->Session->read('Auth.User.role') == 'admin') {
+						echo ' | ';
 						echo 'Administrador';
 					} elseif ($this->Session->read('Auth.User.role') == 'superadmin') {
 						echo 'Super Administrador';
@@ -49,6 +50,7 @@ $cakeDescription = __d('cake_dev', 'Pets: blog sobre cuidados e adoção');
 							)
 						);
 					} else {
+						echo ' : ';
 						echo 'Autor';
 					}
 
