@@ -1,90 +1,147 @@
 <?php
-$cakeDescription = __d('cake_dev', 'Pets: blog sobre cuidados e adoção');
-
+$cakeDescription = 'PetBlog';
+$usuarioLogado = $this->Session->read('Auth.User');
 ?>
 <!DOCTYPE html>
-<html>
+<html lang="pt-br">
 <head>
 	<?php echo $this->Html->charset(); ?>
-	<title>
-		<?php echo $cakeDescription ?>:
-		<?php echo $this->fetch('title'); ?>
-	</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<title><?php echo h($cakeDescription); ?></title>
+
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+	<?php echo $this->Html->css('blog'); ?>
+
 	<?php
 		echo $this->Html->meta('icon');
-		echo $this->Html->css('cake.generic');
 		echo $this->fetch('meta');
 		echo $this->fetch('css');
-		echo $this->fetch('script');
-
 	?>
 </head>
 <body>
-	<div id="container">
-		<div id="content">
-
+	<nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
+		<div class="container">
 			<?php
+				echo $this->Html->link(
+					'PetBlog',
+					array('controller' => 'posts', 'action' => 'visitas'),
+					array('class' => 'navbar-brand font-weight-bold')
+				);
+			?>
 
-			if ($this->Session->check('Auth.User')):
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#menuPrincipal" aria-controls="menuPrincipal" aria-expanded="false" aria-label="Abrir menu">
+				<span class="navbar-toggler-icon"></span>
+			</button>
 
-				?>
+			<div class="collapse navbar-collapse" id="menuPrincipal">
+				<ul class="navbar-nav mr-auto">
+					<li class="nav-item">
+						<?php
+							echo $this->Html->link(
+								'Início',
+								array('controller' => 'posts', 'action' => 'visitas'),
+								array('class' => 'nav-link')
+							);
+						?>
+					</li>
 
-				<div style="margin-bottom:20px; font-weight:bold;">
-					<?php
-					echo h($this->Session->read('Auth.User.username'));
-					?>
-					<?php
-					if ($this->Session->read('Auth.User.role') == 'admin') {
-						echo ' | ';
-						echo 'Administrador';
-					} elseif ($this->Session->read('Auth.User.role') == 'superadmin') {
-						echo 'Super Administrador';
+					<?php if (!empty($usuarioLogado)): ?>
+						<li class="nav-item">
+							<?php
+								echo $this->Html->link(
+									'Postagens',
+									array('controller' => 'posts', 'action' => 'index'),
+									array('class' => 'nav-link')
+								);
+							?>
+						</li>
+						<li class="nav-item">
+							<?php
+								echo $this->Html->link(
+									'Nova postagem',
+									array('controller' => 'posts', 'action' => 'add'),
+									array('class' => 'nav-link')
+								);
+							?>
+						</li>
 
-						echo ' | ';
+						<?php if ($usuarioLogado['role'] === 'superadmin'): ?>
+							<li class="nav-item">
+								<?php
+									echo $this->Html->link(
+										'Usuários',
+										array('controller' => 'users', 'action' => 'index'),
+										array('class' => 'nav-link')
+									);
+								?>
+							</li>
+						<?php endif; ?>
+					<?php endif; ?>
+				</ul>
 
-						echo $this->Html->link(
-							'Gereciar usuários',
-							array(
-							'controller' => 'users',
-							'action' => 'index'
-							)
-						);
-					} else {
-						echo ' : ';
-						echo 'Autor';
-					}
-
-					echo ' | ';
-
-					echo $this->Html->link(
-						'Sair',
-						array(
-							'controller' => 'Users',
-							'action' => 'logout'
-						)
-					);
-
-					echo ' | ';
-
-					echo $this->Html->link(
-						'Adicionar postagem',
-						array(
-							'controller' => 'posts',
-							'action' => 'add'
-						)
-					);
-					?>
-				</div>
-
-			<?php endif; ?>
-
-			<?php echo $this->Flash->render(); ?>
-
-			<?php echo $this->fetch('content'); ?>
-
+				<ul class="navbar-nav align-items-lg-center">
+					<?php if (!empty($usuarioLogado)): ?>
+						<li class="nav-item mr-lg-3">
+							<span class="navbar-text user-info">
+								<?php
+									$perfis = array(
+										'author' => 'Autor',
+										'admin' => 'Administrador',
+										'superadmin' => 'Super Administrador'
+									);
+									$perfil = isset($perfis[$usuarioLogado['role']]) ? $perfis[$usuarioLogado['role']] : $usuarioLogado['role'];
+									echo h($usuarioLogado['username']) . ' — ' . h($perfil);
+								?>
+							</span>
+						</li>
+						<li class="nav-item">
+							<?php
+								echo $this->Html->link(
+									'Sair',
+									array('controller' => 'users', 'action' => 'logout'),
+									array('class' => 'btn btn-outline-light btn-sm')
+								);
+							?>
+						</li>
+					<?php else: ?>
+						<li class="nav-item mr-lg-2">
+							<?php
+								echo $this->Html->link(
+									'Entrar',
+									array('controller' => 'users', 'action' => 'login'),
+									array('class' => 'nav-link')
+								);
+							?>
+						</li>
+						<li class="nav-item">
+							<?php
+								echo $this->Html->link(
+									'Criar conta',
+									array('controller' => 'users', 'action' => 'add'),
+									array('class' => 'btn btn-light btn-sm')
+								);
+							?>
+						</li>
+					<?php endif; ?>
+				</ul>
+			</div>
 		</div>
+	</nav>
 
-	</div>
-	<?php echo $this->element('sql_dump'); ?>
+	<main class="container py-4">
+		<?php echo $this->Session->flash(); ?>
+		<?php echo $this->fetch('content'); ?>
+	</main>
+
+	<footer class="footer py-4 mt-5">
+		<div class="container text-center">
+			<small>PetBlog — cuidados e adoção de animais</small>
+		</div>
+	</footer>
+
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+	<?php echo $this->Html->script('blog'); ?>
+	<?php echo $this->fetch('script'); ?>
 </body>
 </html>

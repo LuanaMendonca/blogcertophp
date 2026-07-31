@@ -1,0 +1,120 @@
+html,
+body {
+	min-height: 100%;
+}
+
+body {
+	background: #f4f7f9;
+	color: #27313a;
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+.navbar-brand {
+	letter-spacing: 0.3px;
+}
+
+.user-info {
+	color: rgba(255, 255, 255, 0.9) !important;
+	font-size: 0.9rem;
+}
+
+.page-title {
+	font-size: 2rem;
+	font-weight: 700;
+}
+
+.hero-section {
+	background: linear-gradient(135deg, #1967d2, #4285f4);
+	border-radius: 0.75rem;
+	color: #ffffff;
+	padding: 4rem 1.5rem;
+}
+
+.post-card {
+	border: 0;
+	border-left: 4px solid #1967d2;
+	border-radius: 0.5rem;
+}
+
+.post-card:hover {
+	transform: translateY(-2px);
+	transition: transform 0.2s ease;
+}
+
+.post-content {
+	line-height: 1.7;
+	white-space: normal;
+}
+
+.post-meta {
+	color: #6c757d;
+	font-size: 0.9rem;
+}
+
+.post-meta span {
+	display: inline-block;
+	margin-right: 1.25rem;
+	margin-bottom: 0.35rem;
+}
+
+.form-page {
+	max-width: 720px;
+	margin: 1rem auto;
+}
+
+.form-page-small {
+	max-width: 480px;
+}
+
+.form-card {
+	border: 0;
+	border-radius: 0.75rem;
+}
+
+label {
+	font-weight: 600;
+}
+
+.error-message {
+	color: #c82333;
+	font-size: 0.875rem;
+	margin-top: 0.25rem;
+}
+
+.message {
+	background: #d4edda;
+	border: 1px solid #c3e6cb;
+	border-radius: 0.35rem;
+	color: #155724;
+	margin-bottom: 1.5rem;
+	padding: 0.85rem 1rem;
+}
+
+.footer {
+	background: #ffffff;
+	border-top: 1px solid #e1e7ec;
+	color: #6c757d;
+}
+
+.table td,
+.table th {
+	vertical-align: middle;
+}
+
+@media (max-width: 575.98px) {
+	.hero-section {
+		padding: 2.75rem 1.25rem;
+	}
+
+	.hero-section .display-4 {
+		font-size: 2.25rem;
+	}
+
+	.page-title {
+		font-size: 1.7rem;
+	}
+
+	.post-actions .btn {
+		margin-bottom: 0.5rem;
+	}
+}

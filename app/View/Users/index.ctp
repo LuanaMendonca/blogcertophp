@@ -1,49 +1,39 @@
-<h2>Usuários cadastrados</h2>
+<div class="mb-4">
+	<h1 class="page-title mb-1">Usuários cadastrados</h1>
+	<p class="text-muted mb-0">Edite o nome, a senha ou o perfil dos usuários.</p>
+</div>
 
-<h2> Editar Usuários </h2>
-
-
-
-<?php
-
-foreach ($usuarios as $usuario) {
-
-	echo '<p>';
-
-	echo '<strong>Usuário:</strong> ';
-	echo h($usuario['User']['username']);
-
-	echo '<br><br>';
-
-	echo '<strong>Tipo de Perfil:</strong> ';
-	echo h($usuario['User']['role']);
-
-	echo '<br><br>';
-
-	echo $this->Html->link(
-		'Editar Perfil',
-		array(
-			'controller' => 'users',
-			'action' => 'edit',
-			$usuario['User']['id']
-		)
-	);
-
-	echo ' | ';
-
-	echo $this->Html->link(
-		'Excluir',
-		array(
-			'controller' => 'users',
-			'action' => 'delete',
-			$usuario['User']['id']
-		)
-	);
-
-
-
-	echo '</p>';
-
-	echo '<hr>';
-}
-?>
+<?php if (empty($usuarios)): ?>
+	<div class="alert alert-info">Nenhum usuário cadastrado.</div>
+<?php else: ?>
+	<div class="card shadow-sm">
+		<div class="table-responsive">
+			<table class="table table-hover mb-0">
+				<thead class="thead-light">
+					<tr>
+						<th>Usuário</th>
+						<th>Perfil</th>
+						<th class="text-right">Ações</th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php foreach ($usuarios as $usuario): ?>
+						<tr>
+							<td><?php echo h($usuario['User']['username']); ?></td>
+							<td><?php echo h($usuario['User']['role']); ?></td>
+							<td class="text-right">
+								<?php
+									echo $this->Html->link(
+										'Editar perfil',
+										array('controller' => 'users', 'action' => 'edit', $usuario['User']['id']),
+										array('class' => 'btn btn-outline-primary btn-sm')
+									);
+								?>
+							</td>
+						</tr>
+					<?php endforeach; ?>
+				</tbody>
+			</table>
+		</div>
+	</div>
+<?php endif; ?>
