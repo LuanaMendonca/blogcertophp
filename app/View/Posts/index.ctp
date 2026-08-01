@@ -28,22 +28,53 @@
 		)); ?>"
 		class="mb-4"
 	>
-		<div class="form-row">
-			<div class="col-md-10 mb-2">
+		<div class="form-row align-items-end">
+
+			<div class="col-md-7 mb-2">
+				<label for="busca">Buscar postagem</label>
+
 				<input
 					type="text"
 					name="busca"
+					id="busca"
 					class="form-control"
 					placeholder="Buscar por título ou conteúdo"
 					value="<?php echo h($this->request->query('busca')); ?>"
 				>
 			</div>
 
-			<div class="col-md-2">
+			<div class="col-md-3 mb-2">
+				<label for="status">Status</label>
+
+				<select name="status" id="status" class="form-control">
+					<option value="">Todos</option>
+
+					<option
+						value="ativo"
+						<?php echo $this->request->query('status') === 'ativo'
+							? 'selected'
+							: ''; ?>
+					>
+						Ativo
+					</option>
+
+					<option
+						value="inativo"
+						<?php echo $this->request->query('status') === 'inativo'
+							? 'selected'
+							: ''; ?>
+					>
+						Inativo
+					</option>
+				</select>
+			</div>
+
+			<div class="col-md-2 mb-2">
 				<button type="submit" class="btn btn-primary btn-block">
 					Buscar
 				</button>
 			</div>
+
 		</div>
 	</form>
 

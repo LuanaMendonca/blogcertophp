@@ -24,6 +24,11 @@ class PostsController extends AppController
 	{
 		$conditions = array();
 		$busca = $this->request->query('busca');
+		$status = $this->request->query('status');
+
+		if (!empty($status)) {
+			$conditions['Post.status'] = $status;
+		}
 
 		if(!empty($busca)){
 			$conditions['OR'] = array(
