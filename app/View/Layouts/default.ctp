@@ -148,12 +148,30 @@ $usuarioLogado = $this->Session->read('Auth.User');
 						?>
 					</li>
 
-					<?php if ($usuarioLogado['role'] === 'superadmin'): ?>
+					<li class="nav-item">
+						<?php
+						echo $this->Html->link(
+							'Minha conta',
+							array(
+								'controller' => 'users',
+								'action' => 'minhaConta'
+							),
+							array(
+								'class' => 'nav-link'
+							)
+						);
+						?>
+					</li>
+
+					<?php if (
+						$usuarioLogado['role'] === 'admin' ||
+						$usuarioLogado['role'] === 'superadmin'
+					): ?>
 
 						<li class="nav-item">
 							<?php
 							echo $this->Html->link(
-								'Usuários',
+								'Gerenciar usuários',
 								array(
 									'controller' => 'users',
 									'action' => 'index'
