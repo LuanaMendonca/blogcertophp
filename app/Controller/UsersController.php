@@ -129,4 +129,115 @@ class UsersController extends AppController
 		$this->Session->setFlash('Você saiu da sua conta.');
 		return $this->redirect('/posts/visitas');
 	}
+	public function delete($id = null)
+	{
+		$this->request->onlyAllow('post', 'delete');
+
+		$usuarioLogado = $this->Auth->user();
+
+		if (empty($usuarioLogado)) {
+			return $this->redirect(array('action' => 'login'));
+		}
+
+		$this->User->id = $id;
+
+		if (!$this->User->exists()) {
+			throw new NotFoundException('Usuário não encontrado.');
+		}
+
+		$usuarioExcluido = $this->User->findById($id);
+
+		$perfilLogado = $usuarioLogado['role'];
+		$perfilUsuario = $usuarioExcluido['User']['role'];
+
+		$ehPropriaConta =
+			(int)$usuarioLogado['id'] ===
+			(int)$usuarioExcluido['User']['id'];
+
+		$podeExcluir = false;
+
+		if ($ehPropriaConta) {
+			$podeExcluir = true;
+		}
+
+		if (
+			$perfilLogado === 'admin' &&
+			$perfilUsuario === 'author'
+		) {
+			$podeExcluir = true;
+		}
+
+		if ($perfilLogado === 'superadmin') {
+			$podeExcluir = true;
+		}
+
+		if (!$podeExcluir) {
+			$this->Session->setFlash(
+				'Você não tem permissão para excluir este usuário.'
+			);
+
+			return $this->redirect(array('action' => 'index'));
+		}
+
+		if ($this->User->delete($id, true)) {
+
+			if ($ehPropriaConta) {
+				$this->Auth->logout();
+
+				$this->Session->setFlash(
+					'Sua conta e suas postagens foram excluídas.'
+				);
+
+				return $this->redirect(
+					array(
+						'controller' => 'posts',
+						'action' => 'visitas'
+					)
+				);
+			}
+
+			$this->Session->setFlash(
+				'Usuário e suas postagens foram excluídos com sucesso.'
+			);
+		} else {
+			$this->Session->setFlash(
+				'Não foi possível excluir o usuário.'
+			);
+		}
+
+		return $this->redirect(array('action' => 'index'));
+	}
+	public function minhaConta()
+	{
+		$id = $this->Auth->user('id');
+
+		$this->User->id = $id;
+
+		if (!$this->User->exists()) {
+			throw new NotFoundException('Usuário não encontrado.');
+		}
+
+		if ($this->request->is(array('post', 'put'))) {
+
+			$this->request->data['User']['id'] = $id;
+
+			unset($this->request->data['User']['role']);
+
+			if (empty($this->request->data['User']['password'])) {
+				unset($this->request->data['User']['password']);
+			}
+
+			if ($this->User->save($this->request->data)) {
+				$this->Session->setFlash('Conta atualizada com sucesso.');
+
+				return $this->redirect(array('action' => 'minhaConta'));
+			}
+
+			$this->Session->setFlash('Não foi possível atualizar a conta.');
+		} else {
+			$this->request->data = $this->User->findById($id);
+			unset($this->request->data['User']['password']);
+		}
+	}
+
 }

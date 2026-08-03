@@ -4,13 +4,29 @@ body {
 }
 
 body {
-	background: #f4f7f9;
-	color: #27313a;
+	background: #f8f4ea;
+	color: #3f4a44;
 	font-family: Arial, Helvetica, sans-serif;
 }
 
+/* Barra de navegação */
+
+.bg-primary {
+	background-color: #52796f !important;
+}
+
 .navbar-brand {
+	color: #ffffff !important;
+	font-weight: 700;
 	letter-spacing: 0.3px;
+}
+
+.navbar-dark .navbar-nav .nav-link {
+	color: rgba(255, 255, 255, 0.9);
+}
+
+.navbar-dark .navbar-nav .nav-link:hover {
+	color: #ffe8d6;
 }
 
 .user-info {
@@ -18,48 +34,71 @@ body {
 	font-size: 0.9rem;
 }
 
+/* Títulos */
+
 .page-title {
+	color: #354f52;
 	font-size: 2rem;
 	font-weight: 700;
 }
 
+/* Área inicial da página pública */
+
 .hero-section {
-	background: linear-gradient(135deg, #1967d2, #4285f4);
+	background: linear-gradient(
+		135deg,
+		#52796f,
+		#84a98c
+	);
 	border-radius: 0.75rem;
 	color: #ffffff;
 	padding: 4rem 1.5rem;
 }
 
+/* Cards das postagens */
+
 .post-card {
+	background: #ffffff;
 	border: 0;
-	border-left: 4px solid #1967d2;
-	border-radius: 0.5rem;
+	border-left: 5px solid #e07a5f;
+	border-radius: 0.65rem;
+	transition:
+		transform 0.2s ease,
+		box-shadow 0.2s ease;
 }
 
 .post-card:hover {
-	transform: translateY(-2px);
-	transition: transform 0.2s ease;
+	box-shadow: 0 0.5rem 1rem rgba(53, 79, 82, 0.18) !important;
+	transform: translateY(-3px);
+}
+
+.card-title {
+	color: #354f52;
+	font-weight: 700;
 }
 
 .post-content {
+	color: #4d5952;
 	line-height: 1.7;
 	white-space: normal;
 }
 
 .post-meta {
-	color: #6c757d;
+	color: #77847d;
 	font-size: 0.9rem;
 }
 
 .post-meta span {
 	display: inline-block;
-	margin-right: 1.25rem;
 	margin-bottom: 0.35rem;
+	margin-right: 1.25rem;
 }
 
+/* Formulários */
+
 .form-page {
-	max-width: 720px;
 	margin: 1rem auto;
+	max-width: 720px;
 }
 
 .form-page-small {
@@ -67,39 +106,150 @@ body {
 }
 
 .form-card {
+	background: #ffffff;
 	border: 0;
 	border-radius: 0.75rem;
 }
 
 label {
+	color: #354f52;
 	font-weight: 600;
 }
 
+.form-control:focus {
+	border-color: #84a98c;
+	box-shadow: 0 0 0 0.2rem rgba(132, 169, 140, 0.25);
+}
+
+/* Botões principais */
+
+.btn-primary {
+	background-color: #52796f;
+	border-color: #52796f;
+}
+
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active {
+	background-color: #3f625a !important;
+	border-color: #3f625a !important;
+}
+
+.btn-outline-primary {
+	border-color: #52796f;
+	color: #52796f;
+}
+
+.btn-outline-primary:hover,
+.btn-outline-primary:focus {
+	background-color: #52796f;
+	border-color: #52796f;
+	color: #ffffff;
+}
+
+/* Botão de destaque da página pública */
+
+.hero-section .btn-light {
+	background: #fff8f0;
+	border-color: #fff8f0;
+	color: #52796f;
+}
+
+.hero-section .btn-light:hover {
+	background: #ffe8d6;
+	border-color: #ffe8d6;
+	color: #354f52;
+}
+
+.hero-section .btn-outline-light:hover {
+	color: #52796f;
+}
+
+/* Links */
+
+a {
+	color: #52796f;
+}
+
+a:hover {
+	color: #e07a5f;
+}
+
+/* Selos */
+
+.badge-success {
+	background-color: #6b9b78;
+}
+
+.badge-secondary {
+	background-color: #b08968;
+}
+
+/* Erros dos campos */
+
 .error-message {
-	color: #c82333;
+	color: #b02a37;
 	font-size: 0.875rem;
 	margin-top: 0.25rem;
 }
 
+/* Notificações gerais */
+
 .message {
-	background: #d4edda;
-	border: 1px solid #c3e6cb;
-	border-radius: 0.35rem;
-	color: #155724;
-	margin-bottom: 1.5rem;
-	padding: 0.85rem 1rem;
+	border-radius: 0.45rem;
+	font-weight: 600;
+	margin: 0 auto 1.5rem;
+	max-width: 720px;
+	padding: 0.9rem 1rem;
+	text-align: center;
 }
+
+/* Mensagens positivas */
+
+.message.success,
+.message.alert-success,
+.alert-success {
+	background: #dcebdd;
+	border: 1px solid #b8d6bc;
+	color: #315c3a;
+}
+
+/* Mensagens negativas */
+
+.message.error,
+.message.alert-danger,
+.alert-danger {
+	background: #f8d7da;
+	border: 1px solid #f1aeb5;
+	color: #842029;
+}
+
+/* Mensagens informativas */
+
+.message.info,
+.message.alert-info,
+.alert-info {
+	background: #fce8d5;
+	border: 1px solid #f4c99f;
+	color: #80552c;
+}
+
+/* Rodapé */
 
 .footer {
 	background: #ffffff;
-	border-top: 1px solid #e1e7ec;
-	color: #6c757d;
+	border-top: 1px solid #ded8cc;
+	color: #77847d;
 }
+
+/* Tabelas */
 
 .table td,
 .table th {
 	vertical-align: middle;
 }
+
+/* Ajustes para celular */
 
 @media (max-width: 575.98px) {
 	.hero-section {

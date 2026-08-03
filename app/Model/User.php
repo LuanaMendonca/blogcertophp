@@ -36,6 +36,14 @@ class User extends AppModel
 			)
 		)
 	);
+
+	public $hasMany = array(
+		'Post' => array(
+			'className' => 'Post',
+			'foreignKey' => 'user_id',
+			'dependent' => true
+		)
+	);
 	public function beforeSave($options = array())
 	{
 		if (empty($this->data[$this->alias]['password'])) {

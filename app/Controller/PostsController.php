@@ -7,7 +7,7 @@ class PostsController extends AppController
 	public function beforeFilter()
 	{
 		parent::beforeFilter();
-		$this->Auth->allow('visitas');
+		$this->Auth->allow('visitas', 'view');
 	}
 	public function visitas(){
 		$posts = $this->Post->find(
@@ -19,6 +19,31 @@ class PostsController extends AppController
 			)
 		);
 		$this->set('posts', $posts);
+	}
+	public function add()
+	{
+		if ($this->request->is('post')) {
+
+			$this->Post->create();
+
+			$this->request->data['Post']['user_id'] =
+				$this->Auth->user('id');
+
+			if ($this->Post->save($this->request->data)) {
+
+				$this->Session->setFlash(
+					'Postagem cadastrada com sucesso.'
+				);
+
+				return $this->redirect(array(
+					'action' => 'index'
+				));
+			}
+
+			$this->Session->setFlash(
+				'Não foi possível cadastrar a postagem.'
+			);
+		}
 	}
 	public function index()
 	{
@@ -69,6 +94,31 @@ class PostsController extends AppController
 
 		$this->set('posts', $posts);
 	}
+	public function view($id = null)
+	{
+		if (!$id) {
+			throw new NotFoundException('Postagem não encontrada.');
+		}
+
+		$post = $this->Post->findById($id);
+
+		if (!$post) {
+			throw new NotFoundException('Postagem não encontrada.');
+		}
+
+		$usuarioId = $this->Auth->user('id');
+
+		$ehDono = !empty($usuarioId) &&
+			$usuarioId == $post['Post']['user_id'];
+
+		$ehRascunho = $post['Post']['status'] === 'inativo';
+
+		if ($ehRascunho && !$ehDono) {
+			throw new NotFoundException('Postagem não encontrada.');
+		}
+
+		$this->set('post', $post);
+	}
 	public function edit($id = null)
 	{
 		if (!$id) {
@@ -77,33 +127,51 @@ class PostsController extends AppController
 
 		$post = $this->Post->findById($id);
 
-		$this->set('post', $post);
-
 		if (!$post) {
 			throw new NotFoundException('Post não encontrado.');
 		}
 
 		$usuario = $this->Auth->user();
 
-		if ( $usuario['role'] != 'superadmin'
-			&& $usuario['role'] != 'admin'
-			&& $usuario['id'] != $post['Post']['user_id']) {
-			throw new ForbiddenException('Você não tem permissão para editar esta postagem.');
+		$ehDono = $usuario['id'] == $post['Post']['user_id'];
+
+		$ehAdministrador =
+			$usuario['role'] === 'admin' ||
+			$usuario['role'] === 'superadmin';
+
+		$ehRascunho = $post['Post']['status'] === 'inativo';
+
+		// Rascunhos só podem ser editados pelo próprio autor.
+		if ($ehRascunho && !$ehDono) {
+			throw new ForbiddenException(
+				'Você não tem permissão para editar este rascunho.'
+			);
+		}
+		if (!$ehRascunho && !$ehDono && !$ehAdministrador) {
+			throw new ForbiddenException(
+				'Você não tem permissão para editar esta postagem.'
+			);
 		}
 
-		if ($this->request->is(array('post', 'put'))) {
+		$this->set('post', $post);
 
+		if ($this->request->is(array('post', 'put'))) {
 			$this->Post->id = $id;
 
 			if ($this->Post->save($this->request->data)) {
+				$this->Session->setFlash(
+					'Post editado com sucesso.'
+				);
 
-				$this->Session->setFlash('Post editado com sucesso.');
-				return $this->redirect(array('action' => 'index'));
+				return $this->redirect(array(
+					'action' => 'index'
+				));
 			}
 
-			$this->Session->setFlash('Erro ao editar o post.');
-		}
-		else {
+			$this->Session->setFlash(
+				'Erro ao editar o post.'
+			);
+		} else {
 			$this->request->data = $post;
 		}
 	}
