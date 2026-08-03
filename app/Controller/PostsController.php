@@ -23,49 +23,51 @@ class PostsController extends AppController
 	public function index()
 	{
 		$conditions = array();
+		$usuarioId = $this->Auth->user('id');
+
 		$busca = $this->request->query('busca');
 		$status = $this->request->query('status');
 
-		if (!empty($status)) {
-			$conditions['Post.status'] = $status;
+		$conditions['AND'] = array(
+			array(
+				'OR' => array(
+					array(
+						'Post.status' => 'ativo'
+					),
+					array(
+						'Post.status' => 'inativo',
+						'Post.user_id' => $usuarioId
+					)
+				)
+			)
+		);
+
+		if (!empty($status) && in_array($status, array('ativo', 'inativo'))) {
+			$conditions['AND'][] = array(
+				'Post.status' => $status
+			);
 		}
 
-		if(!empty($busca)){
-			$conditions['OR'] = array(
-				'Post.titulo LIKE' =>'%'.$busca.'%',
-				'Post.conteudo LIKE' =>'%'.$busca.'%'
+		if (!empty($busca)) {
+			$conditions['AND'][] = array(
+				'OR' => array(
+					'Post.titulo ILIKE' => '%' . $busca . '%',
+					'Post.conteudo ILIKE' => '%' . $busca . '%'
+				)
 			);
 		}
 
 		$posts = $this->Post->find(
 			'all',
 			array(
-				'conditions' => $conditions
-
+				'conditions' => $conditions,
+				'order' => array(
+					'Post.created' => 'DESC'
+				)
 			)
 		);
 
 		$this->set('posts', $posts);
-	}
-	public function add()
-	{
-		if ($this->request->is('post')) {
-
-			$this->Post->create();
-
-			$this->request->data['Post']['user_id'] = $this->Auth->user('id');
-
-			if ($this->Post->save($this->request->data)) {
-
-				$this->Session->setFlash('Post cadastrado com sucesso.');
-
-				return $this->redirect(array('action' => 'index'));
-
-			} else {
-
-				$this->Session->setFlash('Erro ao cadastrar o post.');
-			}
-		}
 	}
 	public function edit($id = null)
 	{

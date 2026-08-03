@@ -6,8 +6,6 @@
 			<?php
 				echo $this->Form->create('Post');
 
-
-
 				echo $this->Form->input('titulo', array(
 					'label' => 'Título',
 					'div' => 'form-group',
@@ -26,8 +24,8 @@
 					'label' => 'Status',
 					'type' => 'select',
 					'options' => array(
-						'ativo' => 'Ativo',
-						'inativo' => 'Inativo'
+						'ativo' => 'Postagem',
+						'inativo' => 'Rascunho'
 					),
 					'div' => 'form-group',
 					'class' => 'form-control'

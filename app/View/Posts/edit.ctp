@@ -27,8 +27,8 @@
 					'label' => 'Status',
 					'type' => 'select',
 					'options' => array(
-						'ativo' => 'Ativo',
-						'inativo' => 'Inativo'
+						'ativo' => 'Postado',
+						'inativo' => 'Pascunho'
 					),
 					'div' => 'form-group',
 					'class' => 'form-control'
