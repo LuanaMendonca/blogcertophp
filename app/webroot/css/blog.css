@@ -208,7 +208,7 @@ a:hover {
 
 .flash-message {
 	position: fixed;
-	top: 20px;
+	top: 70px;
 	left: 50%;
 	transform: translateX(-50%);
 	z-index: 9999;
@@ -225,21 +225,11 @@ a:hover {
 }
 
 .flash-success {
-	background: linear-gradient(
-		135deg,
-		#52796f,
-		#6b9b78
-	);
-	border-left: 6px solid #354f52;
+	background-color: #033629;
 }
 
 .flash-error {
-	background: linear-gradient(
-		135deg,
-		#c96b5c,
-		#e07a5f
-	);
-	border-left: 6px solid #9b4d3d;
+	background-color:#9b4d3d;
 }
 
 @keyframes aparecer {

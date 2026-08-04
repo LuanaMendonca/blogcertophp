@@ -24,6 +24,16 @@ class User extends AppModel
 				'message' => 'Informe uma senha.'
 			)
 		),
+		'confirmPassword' => array(
+			'notBlank' => array(
+				'rule' => 'notBlank',
+				'message' => 'Confirme sua senha.'
+			),
+			'same' => array(
+				'rule' => 'isConfirmPassword',
+				'message' => 'Senhas não coincidem'
+			)
+		),
 
 		'role' => array(
 			'notBlank' => array(
