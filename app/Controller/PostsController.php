@@ -7,37 +7,45 @@ class PostsController extends AppController
 	public function beforeFilter()
 	{
 		parent::beforeFilter();
+
 		$this->Auth->allow('visitas', 'view');
 	}
-	public function visitas(){
+
+	public function visitas()
+	{
 		$posts = $this->Post->find(
 			'all',
 			array(
 				'conditions' => array(
 					'Post.status' => 'ativo'
+				),
+				'order' => array(
+					'Post.created' => 'DESC'
 				)
 			)
 		);
+
 		$this->set('posts', $posts);
 	}
+
 	public function add()
 	{
 		if ($this->request->is('post')) {
-
 			$this->Post->create();
 
 			$this->request->data['Post']['user_id'] =
 				$this->Auth->user('id');
 
 			if ($this->Post->save($this->request->data)) {
-
 				$this->Session->setFlash(
 					'Postagem cadastrada com sucesso.'
 				);
 
-				return $this->redirect(array(
-					'action' => 'index'
-				));
+				return $this->redirect(
+					array(
+						'action' => 'index'
+					)
+				);
 			}
 
 			$this->Session->setFlash(
@@ -45,6 +53,7 @@ class PostsController extends AppController
 			);
 		}
 	}
+
 	public function index()
 	{
 		$conditions = array();
@@ -52,6 +61,8 @@ class PostsController extends AppController
 
 		$busca = $this->request->query('busca');
 		$status = $this->request->query('status');
+		$dataInicial = $this->request->query('data_inicial');
+		$dataFinal = $this->request->query('data_final');
 
 		$conditions['AND'] = array(
 			array(
@@ -67,7 +78,10 @@ class PostsController extends AppController
 			)
 		);
 
-		if (!empty($status) && in_array($status, array('ativo', 'inativo'))) {
+		if (
+			!empty($status) &&
+			in_array($status, array('ativo', 'inativo'))
+		) {
 			$conditions['AND'][] = array(
 				'Post.status' => $status
 			);
@@ -79,6 +93,18 @@ class PostsController extends AppController
 					'Post.titulo ILIKE' => '%' . $busca . '%',
 					'Post.conteudo ILIKE' => '%' . $busca . '%'
 				)
+			);
+		}
+
+		if (!empty($dataInicial)) {
+			$conditions['AND'][] = array(
+				'Post.created >=' => $dataInicial . ' 00:00:00'
+			);
+		}
+
+		if (!empty($dataFinal)) {
+			$conditions['AND'][] = array(
+				'Post.created <=' => $dataFinal . ' 23:59:59'
 			);
 		}
 
@@ -94,60 +120,80 @@ class PostsController extends AppController
 
 		$this->set('posts', $posts);
 	}
+
 	public function view($id = null)
 	{
 		if (!$id) {
-			throw new NotFoundException('Postagem não encontrada.');
+			throw new NotFoundException(
+				'Postagem não encontrada.'
+			);
 		}
 
 		$post = $this->Post->findById($id);
 
 		if (!$post) {
-			throw new NotFoundException('Postagem não encontrada.');
+			throw new NotFoundException(
+				'Postagem não encontrada.'
+			);
 		}
 
 		$usuarioId = $this->Auth->user('id');
 
-		$ehDono = !empty($usuarioId) &&
+		$ehDono =
+			!empty($usuarioId) &&
 			$usuarioId == $post['Post']['user_id'];
 
-		$ehRascunho = $post['Post']['status'] === 'inativo';
+		$ehRascunho =
+			$post['Post']['status'] === 'inativo';
 
 		if ($ehRascunho && !$ehDono) {
-			throw new NotFoundException('Postagem não encontrada.');
+			throw new NotFoundException(
+				'Postagem não encontrada.'
+			);
 		}
 
 		$this->set('post', $post);
 	}
+
 	public function edit($id = null)
 	{
 		if (!$id) {
-			throw new NotFoundException('Post não encontrado.');
+			throw new NotFoundException(
+				'Post não encontrado.'
+			);
 		}
 
 		$post = $this->Post->findById($id);
 
 		if (!$post) {
-			throw new NotFoundException('Post não encontrado.');
+			throw new NotFoundException(
+				'Post não encontrado.'
+			);
 		}
 
 		$usuario = $this->Auth->user();
 
-		$ehDono = $usuario['id'] == $post['Post']['user_id'];
+		$ehDono =
+			$usuario['id'] == $post['Post']['user_id'];
 
 		$ehAdministrador =
 			$usuario['role'] === 'admin' ||
 			$usuario['role'] === 'superadmin';
 
-		$ehRascunho = $post['Post']['status'] === 'inativo';
+		$ehRascunho =
+			$post['Post']['status'] === 'inativo';
 
-		// Rascunhos só podem ser editados pelo próprio autor.
 		if ($ehRascunho && !$ehDono) {
 			throw new ForbiddenException(
 				'Você não tem permissão para editar este rascunho.'
 			);
 		}
-		if (!$ehRascunho && !$ehDono && !$ehAdministrador) {
+
+		if (
+			!$ehRascunho &&
+			!$ehDono &&
+			!$ehAdministrador
+		) {
 			throw new ForbiddenException(
 				'Você não tem permissão para editar esta postagem.'
 			);
@@ -163,9 +209,11 @@ class PostsController extends AppController
 					'Post editado com sucesso.'
 				);
 
-				return $this->redirect(array(
-					'action' => 'index'
-				));
+				return $this->redirect(
+					array(
+						'action' => 'index'
+					)
+				);
 			}
 
 			$this->Session->setFlash(
@@ -181,35 +229,53 @@ class PostsController extends AppController
 		$this->request->allowMethod('post');
 
 		if (!$id) {
-			throw new NotFoundException('Post não encontrado.');
+			throw new NotFoundException(
+				'Post não encontrado.'
+			);
 		}
 
 		$post = $this->Post->findById($id);
 
-		$usuario = $this->Auth->user();
-
 		if (!$post) {
-			throw new NotFoundException('Post não encontrado.');
+			throw new NotFoundException(
+				'Post não encontrado.'
+			);
 		}
 
-		if ($usuario['role'] != 'superadmin' &&
-			$usuario['role'] != 'admin' &&
-			$usuario['id'] != $post['Post']['user_id']) {
+		$usuario = $this->Auth->user();
 
-			throw new ForbiddenException('Você não pode excluir esta postagem.');
+		if (
+			$usuario['role'] != 'superadmin' &&
+			$usuario['role'] != 'admin' &&
+			$usuario['id'] != $post['Post']['user_id']
+		) {
+			throw new ForbiddenException(
+				'Você não pode excluir esta postagem.'
+			);
 		}
 
 		$this->Post->id = $id;
 
 		if ($this->Post->delete()) {
+			$this->Session->setFlash(
+				'Post excluído.'
+			);
 
-			$this->Session->setFlash('Post excluído.');
-
-			return $this->redirect(array('action' => 'index'));
+			return $this->redirect(
+				array(
+					'action' => 'index'
+				)
+			);
 		}
 
-		$this->Session->setFlash('Erro ao excluir o post.');
+		$this->Session->setFlash(
+			'Erro ao excluir o post.'
+		);
 
-		return $this->redirect(array('action' => 'index'));
+		return $this->redirect(
+			array(
+				'action' => 'index'
+			)
+		);
 	}
 }

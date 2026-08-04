@@ -28,7 +28,7 @@
 >
 	<div class="form-row align-items-end">
 
-		<div class="col-md-7 mb-2">
+		<div class="col-md-4 mb-2">
 			<label for="busca">Buscar postagem</label>
 
 			<input
@@ -41,7 +41,7 @@
 			>
 		</div>
 
-		<div class="col-md-3 mb-2">
+		<div class="col-md-2 mb-2">
 			<label for="status">Tipo</label>
 
 			<select name="status" id="status" class="form-control">
@@ -72,11 +72,50 @@
 		</div>
 
 		<div class="col-md-2 mb-2">
+			<label for="data_inicial">Data inicial</label>
+
+			<input
+				type="date"
+				name="data_inicial"
+				id="data_inicial"
+				class="form-control"
+				value="<?php echo h($this->request->query('data_inicial')); ?>"
+			>
+		</div>
+
+		<div class="col-md-2 mb-2">
+			<label for="data_final">Data final</label>
+
+			<input
+				type="date"
+				name="data_final"
+				id="data_final"
+				class="form-control"
+				value="<?php echo h($this->request->query('data_final')); ?>"
+			>
+		</div>
+
+		<div class="col-md-2 mb-2">
 			<button type="submit" class="btn btn-primary btn-block">
 				Buscar
 			</button>
 		</div>
 
+	</div>
+
+	<div class="mt-2">
+		<?php
+		echo $this->Html->link(
+			'Limpar filtros',
+			array(
+				'controller' => 'posts',
+				'action' => 'index'
+			),
+			array(
+				'class' => 'btn btn-outline-secondary btn-sm'
+			)
+		);
+		?>
 	</div>
 </form>
 
