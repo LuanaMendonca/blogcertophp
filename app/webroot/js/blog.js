@@ -1,9 +1,5 @@
 $(function () {
-	var $message = $('.message');
-
-	if ($message.length) {
-		setTimeout(function () {
-			$message.fadeOut(500);
-		}, 4000);
-	}
+	$('.message, .flash-message')
+		.delay(4000)
+		.fadeOut(500);
 });

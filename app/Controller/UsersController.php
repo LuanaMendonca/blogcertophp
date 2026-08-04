@@ -1,8 +1,5 @@
 <?php
 
-// UsersController controla as ações relacionadas aos usuários.
-// Ele recebe as ações das telas e decide o que deve acontecer.
-
 App::uses('AppController', 'Controller');
 
 class UsersController extends AppController
@@ -17,11 +14,14 @@ class UsersController extends AppController
 	public function login()
 	{
 		if ($this->request->is('post')) {
-
 			if ($this->Auth->login()) {
-
-				// Login deu certo
-				$this->Session->setFlash('Login realizado com sucesso.');
+				$this->Session->setFlash(
+					'Login realizado com sucesso.',
+					'default',
+					array(
+						'class' => 'flash-message flash-success'
+					)
+				);
 
 				return $this->redirect(
 					array(
@@ -29,41 +29,54 @@ class UsersController extends AppController
 						'action' => 'index'
 					)
 				);
-
-			} else {
-
-				// Login deu errado
-				$this->Session->setFlash('Usuário ou senha inválidos.');
 			}
+
+			$this->Session->setFlash(
+				'Usuário ou senha inválidos.',
+				'default',
+				array(
+					'class' => 'flash-message flash-error'
+				)
+			);
 		}
 	}
+
 	public function add()
 	{
 		if ($this->request->is('post')) {
-
 			$this->User->create();
 
 			$data = $this->request->data;
 			$data['User']['role'] = 'author';
 
 			if ($this->User->save($data)) {
-
-				$this->Session->setFlash('Usuário criado com sucesso.');
+				$this->Session->setFlash(
+					'Usuário criado com sucesso.',
+					'default',
+					array(
+						'class' => 'flash-message flash-success'
+					)
+				);
 
 				return $this->redirect(
 					array(
 						'action' => 'login'
 					)
 				);
-			} else {
-
-				$this->Session->setFlash('Erro ao criar usuário.');
 			}
+
+			$this->Session->setFlash(
+				'Erro ao criar usuário.',
+				'default',
+				array(
+					'class' => 'flash-message flash-error'
+				)
+			);
 		}
 	}
 
-	public function index(){
-
+	public function index()
+	{
 		$usuarioLogado = $this->Auth->user();
 
 		if ($usuarioLogado['role'] != 'superadmin') {
@@ -76,6 +89,7 @@ class UsersController extends AppController
 
 		$this->set('usuarios', $usuarios);
 	}
+
 	public function edit($id = null)
 	{
 		if (!$id) {
@@ -95,8 +109,8 @@ class UsersController extends AppController
 				'Somente o superadministrador pode editar usuários.'
 			);
 		}
-		if ($this->request->is(array('post', 'put'))) {
 
+		if ($this->request->is(array('post', 'put'))) {
 			if (empty($this->request->data['User']['password'])) {
 				unset($this->request->data['User']['password']);
 			}
@@ -108,27 +122,48 @@ class UsersController extends AppController
 			$this->User->id = $id;
 
 			if ($this->User->save($this->request->data)) {
-
-				$this->Session->setFlash('Usuário editado com sucesso.');
+				$this->Session->setFlash(
+					'Usuário editado com sucesso.',
+					'default',
+					array(
+						'class' => 'flash-message flash-success'
+					)
+				);
 
 				return $this->redirect(
 					array(
-					'action' => 'index')
+						'action' => 'index'
+					)
 				);
-			} else {
-				$this->Session->setFlash('Erro ao editar o usuário.');
 			}
+
+			$this->Session->setFlash(
+				'Erro ao editar o usuário.',
+				'default',
+				array(
+					'class' => 'flash-message flash-error'
+				)
+			);
 		} else {
 			$this->request->data = $usuario;
 		}
 	}
+
 	public function logout()
 	{
 		$this->Auth->logout();
 
-		$this->Session->setFlash('Você saiu da sua conta.');
+		$this->Session->setFlash(
+			'Você saiu da sua conta.',
+			'default',
+			array(
+				'class' => 'flash-message flash-success'
+			)
+		);
+
 		return $this->redirect('/posts/visitas');
 	}
+
 	public function delete($id = null)
 	{
 		$this->request->onlyAllow('post', 'delete');
@@ -173,19 +208,30 @@ class UsersController extends AppController
 
 		if (!$podeExcluir) {
 			$this->Session->setFlash(
-				'Você não tem permissão para excluir este usuário.'
+				'Você não tem permissão para excluir este usuário.',
+				'default',
+				array(
+					'class' => 'flash-message flash-error'
+				)
 			);
 
-			return $this->redirect(array('action' => 'index'));
+			return $this->redirect(
+				array(
+					'action' => 'index'
+				)
+			);
 		}
 
 		if ($this->User->delete($id, true)) {
-
 			if ($ehPropriaConta) {
 				$this->Auth->logout();
 
 				$this->Session->setFlash(
-					'Sua conta e suas postagens foram excluídas.'
+					'Sua conta e suas postagens foram excluídas.',
+					'default',
+					array(
+						'class' => 'flash-message flash-success'
+					)
 				);
 
 				return $this->redirect(
@@ -197,16 +243,29 @@ class UsersController extends AppController
 			}
 
 			$this->Session->setFlash(
-				'Usuário e suas postagens foram excluídos com sucesso.'
+				'Usuário e suas postagens foram excluídos com sucesso.',
+				'default',
+				array(
+					'class' => 'flash-message flash-success'
+				)
 			);
 		} else {
 			$this->Session->setFlash(
-				'Não foi possível excluir o usuário.'
+				'Não foi possível excluir o usuário.',
+				'default',
+				array(
+					'class' => 'flash-message flash-error'
+				)
 			);
 		}
 
-		return $this->redirect(array('action' => 'index'));
+		return $this->redirect(
+			array(
+				'action' => 'index'
+			)
+		);
 	}
+
 	public function minhaConta()
 	{
 		$id = $this->Auth->user('id');
@@ -218,7 +277,6 @@ class UsersController extends AppController
 		}
 
 		if ($this->request->is(array('post', 'put'))) {
-
 			$this->request->data['User']['id'] = $id;
 
 			unset($this->request->data['User']['role']);
@@ -228,16 +286,32 @@ class UsersController extends AppController
 			}
 
 			if ($this->User->save($this->request->data)) {
-				$this->Session->setFlash('Conta atualizada com sucesso.');
+				$this->Session->setFlash(
+					'Conta atualizada com sucesso.',
+					'default',
+					array(
+						'class' => 'flash-message flash-success'
+					)
+				);
 
-				return $this->redirect(array('action' => 'minhaConta'));
+				return $this->redirect(
+					array(
+						'action' => 'minhaConta'
+					)
+				);
 			}
 
-			$this->Session->setFlash('Não foi possível atualizar a conta.');
+			$this->Session->setFlash(
+				'Não foi possível atualizar a conta.',
+				'default',
+				array(
+					'class' => 'flash-message flash-error'
+				)
+			);
 		} else {
 			$this->request->data = $this->User->findById($id);
+
 			unset($this->request->data['User']['password']);
 		}
 	}
-
 }

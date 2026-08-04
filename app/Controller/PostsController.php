@@ -38,7 +38,11 @@ class PostsController extends AppController
 
 			if ($this->Post->save($this->request->data)) {
 				$this->Session->setFlash(
-					'Postagem cadastrada com sucesso.'
+					'Postagem cadastrada com sucesso.',
+					'default',
+					array(
+						'class' => 'flash-message flash-success'
+					)
 				);
 
 				return $this->redirect(
@@ -49,7 +53,11 @@ class PostsController extends AppController
 			}
 
 			$this->Session->setFlash(
-				'Não foi possível cadastrar a postagem.'
+				'Não foi possível cadastrar a postagem.',
+				'default',
+				array(
+					'class' => 'flash-message flash-error'
+				)
 			);
 		}
 	}
@@ -206,7 +214,11 @@ class PostsController extends AppController
 
 			if ($this->Post->save($this->request->data)) {
 				$this->Session->setFlash(
-					'Post editado com sucesso.'
+					'Post editado com sucesso.',
+					'default',
+					array(
+						'class' => 'flash-message flash-success'
+					)
 				);
 
 				return $this->redirect(
@@ -217,7 +229,11 @@ class PostsController extends AppController
 			}
 
 			$this->Session->setFlash(
-				'Erro ao editar o post.'
+				'Erro ao editar o post.',
+				'default',
+				array(
+					'class' => 'flash-message flash-error'
+				)
 			);
 		} else {
 			$this->request->data = $post;
@@ -258,7 +274,11 @@ class PostsController extends AppController
 
 		if ($this->Post->delete()) {
 			$this->Session->setFlash(
-				'Post excluído.'
+				'Post excluído com sucesso.',
+				'default',
+				array(
+					'class' => 'flash-message flash-success'
+				)
 			);
 
 			return $this->redirect(
@@ -269,7 +289,11 @@ class PostsController extends AppController
 		}
 
 		$this->Session->setFlash(
-			'Erro ao excluir o post.'
+			'Erro ao excluir o post.',
+			'default',
+			array(
+				'class' => 'flash-message flash-error'
+			)
 		);
 
 		return $this->redirect(

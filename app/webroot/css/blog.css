@@ -9,8 +9,6 @@ body {
 	font-family: Arial, Helvetica, sans-serif;
 }
 
-/* Barra de navegação */
-
 .bg-primary {
 	background-color: #52796f !important;
 }
@@ -34,15 +32,11 @@ body {
 	font-size: 0.9rem;
 }
 
-/* Títulos */
-
 .page-title {
 	color: #354f52;
 	font-size: 2rem;
 	font-weight: 700;
 }
-
-/* Área inicial da página pública */
 
 .hero-section {
 	background: linear-gradient(
@@ -54,8 +48,6 @@ body {
 	color: #ffffff;
 	padding: 4rem 1.5rem;
 }
-
-/* Cards das postagens */
 
 .post-card {
 	background: #ffffff;
@@ -94,8 +86,6 @@ body {
 	margin-right: 1.25rem;
 }
 
-/* Formulários */
-
 .form-page {
 	margin: 1rem auto;
 	max-width: 720px;
@@ -121,8 +111,6 @@ label {
 	box-shadow: 0 0 0 0.2rem rgba(132, 169, 140, 0.25);
 }
 
-/* Botões principais */
-
 .btn-primary {
 	background-color: #52796f;
 	border-color: #52796f;
@@ -147,8 +135,6 @@ label {
 	color: #ffffff;
 }
 
-/* Botão de destaque da página pública */
-
 .hero-section .btn-light {
 	background: #fff8f0;
 	border-color: #fff8f0;
@@ -165,8 +151,6 @@ label {
 	color: #52796f;
 }
 
-/* Links */
-
 a {
 	color: #52796f;
 }
@@ -174,8 +158,6 @@ a {
 a:hover {
 	color: #e07a5f;
 }
-
-/* Selos */
 
 .badge-success {
 	background-color: #6b9b78;
@@ -185,15 +167,11 @@ a:hover {
 	background-color: #b08968;
 }
 
-/* Erros dos campos */
-
 .error-message {
 	color: #b02a37;
 	font-size: 0.875rem;
 	margin-top: 0.25rem;
 }
-
-/* Notificações gerais */
 
 .message {
 	border-radius: 0.45rem;
@@ -204,8 +182,6 @@ a:hover {
 	text-align: center;
 }
 
-/* Mensagens positivas */
-
 .message.success,
 .message.alert-success,
 .alert-success {
@@ -213,8 +189,6 @@ a:hover {
 	border: 1px solid #b8d6bc;
 	color: #315c3a;
 }
-
-/* Mensagens negativas */
 
 .message.error,
 .message.alert-danger,
@@ -224,8 +198,6 @@ a:hover {
 	color: #842029;
 }
 
-/* Mensagens informativas */
-
 .message.info,
 .message.alert-info,
 .alert-info {
@@ -234,7 +206,42 @@ a:hover {
 	color: #80552c;
 }
 
-/* Rodapé */
+.flash-message {
+	position: fixed;
+	top: 90px;
+	right: 20px;
+	z-index: 9999;
+	width: calc(100% - 40px);
+	max-width: 420px;
+	padding: 16px 20px;
+	border-radius: 8px;
+	color: #ffffff;
+	font-weight: 600;
+	box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25);
+	animation: aparecer 0.25s ease;
+}
+
+.flash-success {
+	background: #28a745;
+	border-left: 6px solid #1e7e34;
+}
+
+.flash-error {
+	background: #dc3545;
+	border-left: 6px solid #a71d2a;
+}
+
+@keyframes aparecer {
+	from {
+		opacity: 0;
+		transform: translateY(-15px);
+	}
+
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
 
 .footer {
 	background: #ffffff;
@@ -242,14 +249,10 @@ a:hover {
 	color: #77847d;
 }
 
-/* Tabelas */
-
 .table td,
 .table th {
 	vertical-align: middle;
 }
-
-/* Ajustes para celular */
 
 @media (max-width: 575.98px) {
 	.hero-section {
@@ -266,5 +269,11 @@ a:hover {
 
 	.post-actions .btn {
 		margin-bottom: 0.5rem;
+	}
+
+	.flash-message {
+		top: 75px;
+		right: 10px;
+		width: calc(100% - 20px);
 	}
 }
