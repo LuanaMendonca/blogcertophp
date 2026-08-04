@@ -1,5 +1,5 @@
 $(function () {
 	$('.message, .flash-message')
-		.delay(4000)
+		.delay(7000)
 		.fadeOut(500);
 });

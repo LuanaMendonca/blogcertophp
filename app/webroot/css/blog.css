@@ -208,38 +208,49 @@ a:hover {
 
 .flash-message {
 	position: fixed;
-	top: 90px;
-	right: 20px;
+	top: 20px;
+	left: 50%;
+	transform: translateX(-50%);
 	z-index: 9999;
 	width: calc(100% - 40px);
-	max-width: 420px;
-	padding: 16px 20px;
-	border-radius: 8px;
+	max-width: 450px;
+	padding: 18px 22px;
+	border-radius: 12px;
 	color: #ffffff;
 	font-weight: 600;
-	box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25);
-	animation: aparecer 0.25s ease;
+	font-size: 1rem;
+	text-align: center;
+	box-shadow: 0 12px 28px rgba(53, 79, 82, 0.22);
+	animation: aparecer .25s ease;
 }
 
 .flash-success {
-	background: #28a745;
-	border-left: 6px solid #1e7e34;
+	background: linear-gradient(
+		135deg,
+		#52796f,
+		#6b9b78
+	);
+	border-left: 6px solid #354f52;
 }
 
 .flash-error {
-	background: #dc3545;
-	border-left: 6px solid #a71d2a;
+	background: linear-gradient(
+		135deg,
+		#c96b5c,
+		#e07a5f
+	);
+	border-left: 6px solid #9b4d3d;
 }
 
 @keyframes aparecer {
 	from {
 		opacity: 0;
-		transform: translateY(-15px);
+		transform: translate(-50%, -20px);
 	}
 
 	to {
 		opacity: 1;
-		transform: translateY(0);
+		transform: translateX(-50%);
 	}
 }
 
@@ -272,8 +283,7 @@ a:hover {
 	}
 
 	.flash-message {
-		top: 75px;
-		right: 10px;
+		top: 15px;
 		width: calc(100% - 20px);
 	}
 }

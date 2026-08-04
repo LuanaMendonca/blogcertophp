@@ -32,7 +32,10 @@ $usuarioLogado = $this->Session->read('Auth.User');
 		href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
 	>
 
-	<?php echo $this->Html->css('blog'); ?>
+	<link
+		rel="stylesheet"
+		href="<?php echo $this->Html->url('/css/blog.css'); ?>?v=2"
+	>
 
 	<?php
 	echo $this->fetch('meta');
@@ -308,7 +311,7 @@ $usuarioLogado = $this->Session->read('Auth.User');
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 
-<?php echo $this->Html->script('blog'); ?>
+<script src="<?php echo $this->Html->url('/js/blog.js'); ?>?v=2"></script>
 
 <?php echo $this->fetch('script'); ?>
 
