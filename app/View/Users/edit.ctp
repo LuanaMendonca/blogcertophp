@@ -20,6 +20,13 @@
 					'class' => 'form-control'
 				));
 
+				echo $this->Form->input('confirm_password', array(
+					'label' => 'Confirme a senha',
+					'value' => '',
+					'required' => false,
+					'div' => 'form-group',
+				));
+
 				echo $this->Form->input('role', array(
 					'label' => 'Perfil do usuário',
 					'type' => 'select',

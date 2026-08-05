@@ -1,13 +1,11 @@
 <?php
 
 App::uses('AppController', 'Controller');
-
 class UsersController extends AppController
 {
 	public function beforeFilter()
 	{
 		parent::beforeFilter();
-
 		$this->Auth->allow('add', 'login');
 	}
 
@@ -22,7 +20,6 @@ class UsersController extends AppController
 						'class' => 'flash-message flash-success'
 					)
 				);
-
 				return $this->redirect(
 					array(
 						'controller' => 'posts',
@@ -30,7 +27,6 @@ class UsersController extends AppController
 					)
 				);
 			}
-
 			$this->Session->setFlash(
 				'Usuário ou senha inválidos.',
 				'default',
@@ -64,7 +60,6 @@ class UsersController extends AppController
 					)
 				);
 			}
-
 			$this->Session->setFlash(
 				'Erro ao criar usuário.',
 				'default',
@@ -78,49 +73,38 @@ class UsersController extends AppController
 	public function index()
 	{
 		$usuarioLogado = $this->Auth->user();
-
 		if ($usuarioLogado['role'] != 'superadmin') {
 			throw new ForbiddenException(
 				'Somente o superadministrador pode visualizar os usuários.'
 			);
 		}
-
 		$usuarios = $this->User->find('all');
-
 		$this->set('usuarios', $usuarios);
 	}
-
 	public function edit($id = null)
 	{
 		if (!$id) {
 			throw new NotFoundException('Usuário não encontrado.');
 		}
-
 		$usuario = $this->User->findById($id);
-
 		if (!$usuario) {
 			throw new NotFoundException('Usuário não encontrado.');
 		}
-
 		$usuarioLogado = $this->Auth->user();
-
 		if ($usuarioLogado['role'] != 'superadmin') {
 			throw new ForbiddenException(
 				'Somente o superadministrador pode editar usuários.'
 			);
 		}
-
 		if ($this->request->is(array('post', 'put'))) {
 			if (empty($this->request->data['User']['password'])) {
 				unset($this->request->data['User']['password']);
+				unset($this->request->data['User']['password_confirm']);
 			}
-
 			if (empty($this->request->data['User']['username'])) {
 				unset($this->request->data['User']['username']);
 			}
-
 			$this->User->id = $id;
-
 			if ($this->User->save($this->request->data)) {
 				$this->Session->setFlash(
 					'Usuário editado com sucesso.',
@@ -129,14 +113,12 @@ class UsersController extends AppController
 						'class' => 'flash-message flash-success'
 					)
 				);
-
 				return $this->redirect(
 					array(
 						'action' => 'index'
 					)
 				);
 			}
-
 			$this->Session->setFlash(
 				'Erro ao editar o usuário.',
 				'default',
@@ -148,7 +130,6 @@ class UsersController extends AppController
 			$this->request->data = $usuario;
 		}
 	}
-
 	public function logout()
 	{
 		$this->Auth->logout();
@@ -160,10 +141,8 @@ class UsersController extends AppController
 				'class' => 'flash-message flash-success'
 			)
 		);
-
 		return $this->redirect('/posts/visitas');
 	}
-
 	public function delete($id = null)
 	{
 		$this->request->onlyAllow('post', 'delete');
@@ -313,5 +292,62 @@ class UsersController extends AppController
 
 			unset($this->request->data['User']['password']);
 		}
+	}
+
+	public function minha_conta()
+	{
+	$id = $this->Auth->user('id');
+	$usuario = $this->User->findById($id);
+
+	if (!$usuario) {
+		throw new NotFoundException('Usuário não encontrado.');
+	}
+
+	if ($this->request->is(array('post', 'put'))) {
+
+		if (empty($this->request->data['User']['password'])) {
+			unset($this->request->data['User']['password']);
+			unset($this->request->data['User']['confirmPassword']);
+		}
+
+		unset($this->request->data['User']['role']);
+
+		$this->User->id = $id;
+
+		if ($this->User->save($this->request->data)) {
+			$this->Session->write(
+				'Auth.User.username',
+				$this->request->data['User']['username']
+			);
+
+			$this->Session->setFlash(
+				'Conta atualizada com sucesso.',
+				'default',
+				array(
+					'class' => 'flash-message flash-success'
+				)
+			);
+
+			return $this->redirect(
+				array(
+					'action' => 'minha_conta'
+				)
+			);
+		}
+
+		$this->Session->setFlash(
+			'Erro ao atualizar a conta.',
+			'default',
+			array(
+				'class' => 'flash-message flash-error'
+			)
+		);
+
+	} else {
+		unset($usuario['User']['password']);
+		$this->request->data = $usuario;
+	}
+
+	$this->set('usuario', $usuario);
 	}
 }

@@ -41,6 +41,17 @@ $usuarioLogado = $this->Session->read('Auth.User');
 					'placeholder' => 'Deixe vazio para manter a senha atual'
 				)
 			);
+
+			echo $this->Form->input('confirmPassword',
+				array(
+					'label' => 'Confirme sua senha',
+					'type' => 'password',
+					'class' => 'form-control',
+					'value' => '',
+					'required' => false,
+				)
+			);
+
 			?>
 		</div>
 

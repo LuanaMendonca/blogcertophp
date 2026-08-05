@@ -1,10 +1,6 @@
 <?php
 App::uses('AppModel', 'Model');
-App::uses(
-	'SimplePasswordHasher',
-	'Controller/Component/Auth'
-);
-
+App::uses('SimplePasswordHasher', 'Controller/Component/Auth');
 class User extends AppModel
 {
 	public $validate = array(
@@ -34,7 +30,6 @@ class User extends AppModel
 				'message' => 'Senhas não coincidem'
 			)
 		),
-
 		'role' => array(
 			'notBlank' => array(
 				'rule' => 'notBlank',
@@ -46,6 +41,12 @@ class User extends AppModel
 			)
 		)
 	);
+	public function isConfirmPassword($check){
+		$confirmPassword = $check['confirmPassword'];
+		$password = $this->data['User']['password'];
+
+		return $confirmPassword === $password;
+	}
 
 	public $hasMany = array(
 		'Post' => array(

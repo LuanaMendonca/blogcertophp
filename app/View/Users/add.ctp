@@ -19,6 +19,12 @@
 					'class' => 'form-control'
 				));
 
+				echo $this->Form->input('confirmpassword', array(
+					'label' => 'Confirmar senha',
+					'div' => 'form-group',
+					'class' => 'form-control'
+				));
+
 				echo $this->Form->end(array(
 					'label' => 'Cadastrar',
 					'class' => 'btn btn-primary btn-block'
