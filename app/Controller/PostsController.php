@@ -8,24 +8,16 @@ class PostsController extends AppController
 	{
 		parent::beforeFilter();
 
-		$this->Auth->allow('visitas', 'view');
+		$this->Auth->allow('index', 'visitas', 'view');
 	}
 
 	public function visitas()
 	{
-		$posts = $this->Post->find(
-			'all',
+		return $this->redirect(
 			array(
-				'conditions' => array(
-					'Post.status' => 'ativo'
-				),
-				'order' => array(
-					'Post.created' => 'DESC'
-				)
+				'action' => 'index'
 			)
 		);
-
-		$this->set('posts', $posts);
 	}
 
 	public function add()
@@ -64,16 +56,15 @@ class PostsController extends AppController
 
 	public function index()
 	{
-		$conditions = array();
+		$conditions = array(
+			'AND' => array()
+		);
+
 		$usuarioId = $this->Auth->user('id');
+		$usuarioLogado = !empty($usuarioId);
 
-		$busca = $this->request->query('busca');
-		$status = $this->request->query('status');
-		$dataInicial = $this->request->query('data_inicial');
-		$dataFinal = $this->request->query('data_final');
-
-		$conditions['AND'] = array(
-			array(
+		if ($usuarioLogado) {
+			$conditions['AND'][] = array(
 				'OR' => array(
 					array(
 						'Post.status' => 'ativo'
@@ -83,36 +74,45 @@ class PostsController extends AppController
 						'Post.user_id' => $usuarioId
 					)
 				)
-			)
-		);
-
-		if (
-			!empty($status) &&
-			in_array($status, array('ativo', 'inativo'))
-		) {
-			$conditions['AND'][] = array(
-				'Post.status' => $status
 			);
-		}
 
-		if (!empty($busca)) {
-			$conditions['AND'][] = array(
-				'OR' => array(
-					'Post.titulo ILIKE' => '%' . $busca . '%',
-					'Post.conteudo ILIKE' => '%' . $busca . '%'
-				)
-			);
-		}
+			$busca = $this->request->query('busca');
+			$status = $this->request->query('status');
+			$dataInicial = $this->request->query('data_inicial');
+			$dataFinal = $this->request->query('data_final');
 
-		if (!empty($dataInicial)) {
-			$conditions['AND'][] = array(
-				'Post.created >=' => $dataInicial . ' 00:00:00'
-			);
-		}
+			if (
+				!empty($status) &&
+				in_array($status, array('ativo', 'inativo'))
+			) {
+				$conditions['AND'][] = array(
+					'Post.status' => $status
+				);
+			}
 
-		if (!empty($dataFinal)) {
+			if (!empty($busca)) {
+				$conditions['AND'][] = array(
+					'OR' => array(
+						'Post.titulo ILIKE' => '%' . $busca . '%',
+						'Post.conteudo ILIKE' => '%' . $busca . '%'
+					)
+				);
+			}
+
+			if (!empty($dataInicial)) {
+				$conditions['AND'][] = array(
+					'Post.created >=' => $dataInicial . ' 00:00:00'
+				);
+			}
+
+			if (!empty($dataFinal)) {
+				$conditions['AND'][] = array(
+					'Post.created <=' => $dataFinal . ' 23:59:59'
+				);
+			}
+		} else {
 			$conditions['AND'][] = array(
-				'Post.created <=' => $dataFinal . ' 23:59:59'
+				'Post.status' => 'ativo'
 			);
 		}
 

@@ -1,115 +1,336 @@
 <?php
 $usuarioLogado = $this->Session->read('Auth.User');
-
-$ehDono = !empty($usuarioLogado) &&
-	$usuarioLogado['id'] == $post['Post']['user_id'];
-
-$ehAdministrador = !empty($usuarioLogado) && (
-		$usuarioLogado['role'] === 'admin' ||
-		$usuarioLogado['role'] === 'superadmin'
-	);
-
-$ehRascunho = $post['Post']['status'] === 'inativo';
-
-$podeAlterar = $ehDono || (!$ehRascunho && $ehAdministrador);
-
-$acaoVoltar = $this->Session->check('Auth.User')
-	? 'index'
-	: 'visitas';
 ?>
 
-<div class="card post-card shadow-sm">
-	<div class="card-body p-4">
+	<section class="hero-section text-center mb-5">
+		<h1 class="display-4 font-weight-bold">
+			Bem-vindo ao PetBlog
+		</h1>
 
-		<div class="d-flex flex-column flex-md-row justify-content-between">
-			<h1 class="h2 mb-3">
-				<?php echo h($post['Post']['titulo']); ?>
-			</h1>
+		<p class="lead mb-4">
+			Conteúdos sobre cuidados, bem-estar e adoção de animais.
+		</p>
 
-			<span class="badge badge-<?php
-			echo $ehRascunho ? 'secondary' : 'success';
-			?> align-self-start mb-3">
+		<?php if (empty($usuarioLogado)): ?>
 
+			<div>
 				<?php
-				echo $ehRascunho
-					? 'Rascunho'
-					: 'Postagem';
+				echo $this->Html->link(
+					'Fazer login',
+					array(
+						'controller' => 'users',
+						'action' => 'login'
+					),
+					array(
+						'class' => 'btn btn-light mr-2'
+					)
+				);
+
+				echo $this->Html->link(
+					'Criar conta',
+					array(
+						'controller' => 'users',
+						'action' => 'add'
+					),
+					array(
+						'class' => 'btn btn-outline-light'
+					)
+				);
 				?>
+			</div>
 
-			</span>
+		<?php endif; ?>
+	</section>
+
+	<div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4">
+
+		<div>
+			<h2 class="page-title mb-1">
+				Postagens
+			</h2>
+
+			<p class="text-muted mb-0">
+				Confira as postagens publicadas no PetBlog.
+			</p>
 		</div>
 
-		<div class="post-meta mb-4">
-			<span>
-				<strong>Autor:</strong>
-				<?php echo h($post['User']['username']); ?>
-			</span>
-
-			<?php if (!empty($post['Post']['created'])): ?>
-				<span class="ml-md-3">
-					<strong>Publicado em:</strong>
-
-					<?php
-					echo date(
-						'd/m/Y \à\s H:i',
-						strtotime($post['Post']['created'])
-					);
-					?>
-				</span>
-			<?php endif; ?>
-		</div>
-
-		<div class="post-content mb-4">
-			<?php echo nl2br(h($post['Post']['conteudo'])); ?>
-		</div>
-
-		<div class="d-flex flex-wrap">
+		<?php if (!empty($usuarioLogado)): ?>
 
 			<?php
 			echo $this->Html->link(
-				'Voltar',
+				'Adicionar postagem',
 				array(
 					'controller' => 'posts',
-					'action' => $acaoVoltar
+					'action' => 'add'
 				),
 				array(
-					'class' => 'btn btn-outline-secondary mr-2 mb-2'
+					'class' => 'btn btn-primary mt-3 mt-md-0'
 				)
 			);
 			?>
 
-			<?php if ($podeAlterar): ?>
+		<?php endif; ?>
 
-				<?php
-				echo $this->Html->link(
-					'Editar',
-					array(
-						'controller' => 'posts',
-						'action' => 'edit',
-						$post['Post']['id']
-					),
-					array(
-						'class' => 'btn btn-outline-primary mr-2 mb-2'
-					)
-				);
+	</div>
 
-				echo $this->Form->postLink(
-					'Excluir',
-					array(
-						'controller' => 'posts',
-						'action' => 'delete',
-						$post['Post']['id']
-					),
-					array(
-						'class' => 'btn btn-outline-danger mb-2'
-					),
-					'Tem certeza que deseja excluir esta postagem?'
-				);
-				?>
+<?php if (!empty($usuarioLogado)): ?>
 
-			<?php endif; ?>
+	<form
+		method="get"
+		action="<?php echo $this->Html->url(array(
+			'controller' => 'posts',
+			'action' => 'index'
+		)); ?>"
+		class="mb-4"
+	>
+		<div class="form-row align-items-end">
+
+			<div class="col-md-4 mb-2">
+
+				<label for="busca">
+					Buscar postagem
+				</label>
+
+				<input
+					type="text"
+					name="busca"
+					id="busca"
+					class="form-control"
+					placeholder="Buscar por título ou conteúdo"
+					value="<?php echo h(
+						$this->request->query('busca')
+					); ?>"
+				>
+
+			</div>
+
+			<div class="col-md-2 mb-2">
+
+				<label for="status">
+					Tipo
+				</label>
+
+				<select
+					name="status"
+					id="status"
+					class="form-control"
+				>
+					<option value="">
+						Todos
+					</option>
+
+					<option
+						value="ativo"
+						<?php
+						echo $this->request->query('status') === 'ativo'
+							? 'selected'
+							: '';
+						?>
+					>
+						Postagem
+					</option>
+
+					<option
+						value="inativo"
+						<?php
+						echo $this->request->query('status') === 'inativo'
+							? 'selected'
+							: '';
+						?>
+					>
+						Rascunho
+					</option>
+
+				</select>
+
+			</div>
+
+			<div class="col-md-2 mb-2">
+
+				<label for="data_inicial">
+					Data inicial
+				</label>
+
+				<input
+					type="date"
+					name="data_inicial"
+					id="data_inicial"
+					class="form-control"
+					value="<?php echo h(
+						$this->request->query('data_inicial')
+					); ?>"
+				>
+
+			</div>
+
+			<div class="col-md-2 mb-2">
+
+				<label for="data_final">
+					Data final
+				</label>
+
+				<input
+					type="date"
+					name="data_final"
+					id="data_final"
+					class="form-control"
+					value="<?php echo h(
+						$this->request->query('data_final')
+					); ?>"
+				>
+
+			</div>
+
+			<div class="col-md-2 mb-2">
+
+				<button
+					type="submit"
+					class="btn btn-primary btn-block"
+				>
+					Buscar
+				</button>
+
+			</div>
 
 		</div>
 
+		<div class="mt-2">
+
+			<?php
+			echo $this->Html->link(
+				'Limpar filtros',
+				array(
+					'controller' => 'posts',
+					'action' => 'index'
+				),
+				array(
+					'class' => 'btn btn-outline-secondary btn-sm'
+				)
+			);
+			?>
+
+		</div>
+
+	</form>
+
+<?php endif; ?>
+
+<?php if (empty($posts)): ?>
+
+	<div class="alert alert-info">
+		Nenhuma postagem encontrada.
 	</div>
-</div>
+
+<?php else: ?>
+
+	<div class="row">
+
+		<?php foreach ($posts as $post): ?>
+
+			<div class="col-12 col-md-6 mb-4">
+
+				<a
+					href="<?php echo $this->Html->url(array(
+						'controller' => 'posts',
+						'action' => 'view',
+						$post['Post']['id']
+					)); ?>"
+					class="d-block h-100"
+					style="color: inherit; text-decoration: none;"
+				>
+
+					<article
+						class="card post-card h-100 shadow-sm"
+						style="cursor: pointer;"
+					>
+
+						<div class="card-body d-flex flex-column">
+
+							<div class="d-flex justify-content-between align-items-start">
+
+								<h3 class="h4 card-title">
+									<?php
+									echo h(
+										$post['Post']['titulo']
+									);
+									?>
+								</h3>
+
+								<?php if (!empty($usuarioLogado)): ?>
+
+									<span
+										class="badge badge-<?php
+										echo $post['Post']['status'] === 'ativo'
+											? 'success'
+											: 'secondary';
+										?>"
+									>
+										<?php
+										echo $post['Post']['status'] === 'ativo'
+											? 'Postagem'
+											: 'Rascunho';
+										?>
+									</span>
+
+								<?php endif; ?>
+
+							</div>
+
+							<p class="card-text post-content flex-grow-1">
+
+								<?php
+								echo nl2br(
+									h($post['Post']['conteudo'])
+								);
+								?>
+
+							</p>
+
+							<div class="post-meta mt-3">
+
+								<?php if (!empty($post['User']['username'])): ?>
+
+									<span>
+										<strong>Autor:</strong>
+
+										<?php
+										echo h(
+											$post['User']['username']
+										);
+										?>
+									</span>
+
+								<?php endif; ?>
+
+								<?php if (!empty($post['Post']['created'])): ?>
+
+									<span>
+										<strong>Publicado em:</strong>
+
+										<?php
+										echo date(
+											'd/m/Y \à\s H:i',
+											strtotime(
+												$post['Post']['created']
+											)
+										);
+										?>
+									</span>
+
+								<?php endif; ?>
+
+							</div>
+
+						</div>
+
+					</article>
+
+				</a>
+
+			</div>
+
+		<?php endforeach; ?>
+
+	</div>
+
+<?php endif; ?>

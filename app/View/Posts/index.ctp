@@ -1,123 +1,219 @@
-<div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4">
-	<div>
-		<h1 class="page-title mb-1">Lista de postagens</h1>
-		<p class="text-muted mb-0">Gerencie as postagens do blog.</p>
-	</div>
+<?php
+$usuarioLogado = $this->Session->read('Auth.User');
+?>
 
-	<?php
-	echo $this->Html->link(
-		'Adicionar postagem',
-		array(
-			'controller' => 'posts',
-			'action' => 'add'
-		),
-		array(
-			'class' => 'btn btn-primary mt-3 mt-md-0'
-		)
-	);
-	?>
-</div>
+	<section class="hero-section text-center mb-5">
+		<h1 class="display-4 font-weight-bold">
+			Bem-vindos ao PetBlog!
+		</h1>
 
-<form
-	method="get"
-	action="<?php echo $this->Html->url(array(
-		'controller' => 'posts',
-		'action' => 'index'
-	)); ?>"
-	class="mb-4"
->
-	<div class="form-row align-items-end">
+		<p class="lead mb-4">
+			Conteúdos sobre cuidados, bem-estar e adoção de animais.
+		</p>
 
-		<div class="col-md-4 mb-2">
-			<label for="busca">Buscar postagem</label>
+		<?php if (empty($usuarioLogado)): ?>
 
-			<input
-				type="text"
-				name="busca"
-				id="busca"
-				class="form-control"
-				placeholder="Buscar por título ou conteúdo"
-				value="<?php echo h($this->request->query('busca')); ?>"
-			>
+			<div>
+				<?php
+				echo $this->Html->link(
+					'Fazer login',
+					array(
+						'controller' => 'users',
+						'action' => 'login'
+					),
+					array(
+						'class' => 'btn btn-light mr-2'
+					)
+				);
+
+				echo $this->Html->link(
+					'Criar conta',
+					array(
+						'controller' => 'users',
+						'action' => 'add'
+					),
+					array(
+						'class' => 'btn btn-outline-light'
+					)
+				);
+				?>
+			</div>
+
+		<?php endif; ?>
+	</section>
+
+	<div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4">
+
+		<div>
+			<h2 class="page-title mb-1">
+				Postagens recentes
+			</h2>
+
+			<p class="text-muted mb-0">
+				Confira as postagens publicadas no PetBlog.
+			</p>
 		</div>
 
-		<div class="col-md-2 mb-2">
-			<label for="status">Tipo</label>
+		<?php if (!empty($usuarioLogado)): ?>
 
-			<select name="status" id="status" class="form-control">
-				<option value="">Todos</option>
+			<?php
+			echo $this->Html->link(
+				'Adicionar postagem',
+				array(
+					'controller' => 'posts',
+					'action' => 'add'
+				),
+				array(
+					'class' => 'btn btn-primary mt-3 mt-md-0'
+				)
+			);
+			?>
 
-				<option
-					value="ativo"
-					<?php
-					echo $this->request->query('status') === 'ativo'
-						? 'selected'
-						: '';
-					?>
+		<?php endif; ?>
+
+	</div>
+
+<?php if (!empty($usuarioLogado)): ?>
+
+	<form
+		id="filtro-postagens"
+		method="get"
+		action="<?php echo $this->Html->url('/'); ?>"
+		class="mb-4"
+	>
+		<div class="form-row align-items-end">
+
+			<div class="col-md-4 mb-2">
+				<label for="busca">
+					Buscar postagem
+				</label>
+
+				<input
+					type="text"
+					name="busca"
+					id="busca"
+					class="form-control"
+					placeholder="Buscar por título ou conteúdo"
+					value="<?php echo h(
+						$this->request->query('busca')
+					); ?>"
 				>
-					Postagem
-				</option>
+			</div>
 
-				<option
-					value="inativo"
-					<?php
-					echo $this->request->query('status') === 'inativo'
-						? 'selected'
-						: '';
-					?>
+			<div class="col-md-2 mb-2">
+				<label for="status">
+					Tipo
+				</label>
+
+				<select
+					name="status"
+					id="status"
+					class="form-control"
 				>
-					Rascunho
-				</option>
-			</select>
+					<option value="">
+						Todos
+					</option>
+
+					<option
+						value="ativo"
+						<?php
+						echo $this->request->query('status') === 'ativo'
+							? 'selected'
+							: '';
+						?>
+					>
+						Postagem
+					</option>
+
+					<option
+						value="inativo"
+						<?php
+						echo $this->request->query('status') === 'inativo'
+							? 'selected'
+							: '';
+						?>
+					>
+						Rascunho
+					</option>
+				</select>
+			</div>
+			<div class="col-md-2 mb-2">
+				<label for="data_inicial">
+					Data inicial
+				</label>
+
+				<input
+					type="text"
+					name="data_inicial"
+					id="data_inicial"
+					class="form-control campo-data"
+					placeholder="aaaa-mm-dd"
+					autocomplete="off"
+					readonly
+					value="<?php echo h(
+						$this->request->query('data_inicial')
+					); ?>"
+				>
+			</div>
+
+			<div class="col-md-2 mb-2">
+				<label for="data_final">
+					Data final
+				</label>
+
+				<input
+					type="text"
+					name="data_final"
+					id="data_final"
+					class="form-control campo-data"
+					placeholder="aaaa-mm-dd"
+					autocomplete="off"
+					readonly
+					value="<?php echo h(
+						$this->request->query('data_final')
+					); ?>"
+				>
+			</div>
+
+			<script>
+				$(function () {
+					$('.campo-data').datepicker({
+						format: 'yyyy-mm-dd',
+						autoclose: true,
+						todayHighlight: true,
+						enableOnReadonly: true
+					});
+				});
+			</script>
+
+			<div class="col-md-2 mb-2">
+				<button
+					type="submit"
+					class="btn btn-primary btn-block"
+				>
+					Buscar
+				</button>
+			</div>
+
 		</div>
 
-		<div class="col-md-2 mb-2">
-			<label for="data_inicial">Data inicial</label>
-
-			<input
-				type="date"
-				name="data_inicial"
-				id="data_inicial"
-				class="form-control"
-				value="<?php echo h($this->request->query('data_inicial')); ?>"
-			>
+		<div class="mt-2">
+			<?php
+			echo $this->Html->link(
+				'Limpar filtros',
+				array(
+					'controller' => 'posts',
+					'action' => 'index'
+				),
+				array(
+					'class' => 'btn btn-outline-secondary btn-sm'
+				)
+			);
+			?>
 		</div>
+	</form>
 
-		<div class="col-md-2 mb-2">
-			<label for="data_final">Data final</label>
-
-			<input
-				type="date"
-				name="data_final"
-				id="data_final"
-				class="form-control"
-				value="<?php echo h($this->request->query('data_final')); ?>"
-			>
-		</div>
-
-		<div class="col-md-2 mb-2">
-			<button type="submit" class="btn btn-primary btn-block">
-				Buscar
-			</button>
-		</div>
-
-	</div>
-
-	<div class="mt-2">
-		<?php
-		echo $this->Html->link(
-			'Limpar filtros',
-			array(
-				'controller' => 'posts',
-				'action' => 'index'
-			),
-			array(
-				'class' => 'btn btn-outline-secondary btn-sm'
-			)
-		);
-		?>
-	</div>
-</form>
+<?php endif; ?>
 
 <?php if (empty($posts)): ?>
 
@@ -128,6 +224,7 @@
 <?php else: ?>
 
 	<div class="row">
+
 		<?php foreach ($posts as $post): ?>
 
 			<div class="col-12 mb-4">
@@ -138,9 +235,10 @@
 						'action' => 'view',
 						$post['Post']['id']
 					)); ?>"
-					style="color: inherit; text-decoration: none;"
 					class="d-block"
+					style="color: inherit; text-decoration: none;"
 				>
+
 					<article
 						class="card post-card shadow-sm"
 						style="cursor: pointer;"
@@ -149,23 +247,32 @@
 
 							<div class="d-flex flex-column flex-md-row justify-content-between align-items-md-start">
 
-								<h2 class="h4 card-title mb-2">
-									<?php echo h($post['Post']['titulo']); ?>
-								</h2>
-
-								<span class="badge badge-<?php
-								echo $post['Post']['status'] === 'ativo'
-									? 'success'
-									: 'secondary';
-								?> mb-3 mb-md-0">
-
+								<h3 class="h4 card-title mb-2">
 									<?php
-									echo $post['Post']['status'] === 'ativo'
-										? 'Postagem'
-										: 'Rascunho';
+									echo h(
+										$post['Post']['titulo']
+									);
 									?>
+								</h3>
 
-								</span>
+								<?php if (!empty($usuarioLogado)): ?>
+
+									<span
+										class="badge badge-<?php
+										echo $post['Post']['status'] === 'ativo'
+											? 'success'
+											: 'secondary';
+										?> mb-3 mb-md-0"
+									>
+										<?php
+										echo $post['Post']['status'] === 'ativo'
+											? 'Postagem'
+											: 'Rascunho';
+										?>
+									</span>
+
+								<?php endif; ?>
+
 							</div>
 
 							<p class="card-text post-content">
@@ -177,15 +284,20 @@
 							</p>
 
 							<div class="post-meta">
-								<span>
-									<strong>Autor:</strong>
 
-									<?php
-									echo h(
-										$post['User']['username']
-									);
-									?>
-								</span>
+								<?php if (!empty($post['User']['username'])): ?>
+
+									<span>
+										<strong>Autor:</strong>
+
+										<?php
+										echo h(
+											$post['User']['username']
+										);
+										?>
+									</span>
+
+								<?php endif; ?>
 
 								<?php if (!empty($post['Post']['created'])): ?>
 
@@ -203,15 +315,18 @@
 									</span>
 
 								<?php endif; ?>
+
 							</div>
 
 						</div>
 					</article>
+
 				</a>
 
 			</div>
 
 		<?php endforeach; ?>
+
 	</div>
 
 <?php endif; ?>

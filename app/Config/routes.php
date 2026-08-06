@@ -29,7 +29,7 @@
 		'/',
 		array(
 			'controller' => 'posts',
-			'action' => 'visitas'
+			'action' => 'index'
 		)
 	);
 /**

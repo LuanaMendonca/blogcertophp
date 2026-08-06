@@ -6,6 +6,13 @@ $usuarioLogado = $this->Session->read('Auth.User');
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
+	<link
+		rel="stylesheet"
+		href="https://cdn.jsdelivr.net/npm/bootstrap-datepicker@1.9.0/dist/css/bootstrap-datepicker.min.css"
+	>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap-datepicker@1.9.0/dist/js/bootstrap-datepicker.min.js"></script>
+
+
 	<?php echo $this->Html->charset(); ?>
 
 	<meta
@@ -78,7 +85,7 @@ $usuarioLogado = $this->Session->read('Auth.User');
 			$marcaPetBlog,
 			array(
 				'controller' => 'posts',
-				'action' => 'visitas'
+				'action' => 'index'
 			),
 			array(
 				'class' => 'navbar-brand d-flex align-items-center py-0 mr-lg-4',
@@ -110,7 +117,7 @@ $usuarioLogado = $this->Session->read('Auth.User');
 						'Início',
 						array(
 							'controller' => 'posts',
-							'action' => 'visitas'
+							'action' => 'index'
 						),
 						array(
 							'class' => 'nav-link'
@@ -120,21 +127,6 @@ $usuarioLogado = $this->Session->read('Auth.User');
 				</li>
 
 				<?php if (!empty($usuarioLogado)): ?>
-
-					<li class="nav-item">
-						<?php
-						echo $this->Html->link(
-							'Postagens',
-							array(
-								'controller' => 'posts',
-								'action' => 'index'
-							),
-							array(
-								'class' => 'nav-link'
-							)
-						);
-						?>
-					</li>
 
 					<li class="nav-item">
 						<?php
@@ -311,7 +303,7 @@ $usuarioLogado = $this->Session->read('Auth.User');
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 
-<script src="<?php echo $this->Html->url('/js/blog.js'); ?>?v=2"></script>
+<script src="<?php echo $this->Html->url('/js/blog.js'); ?>?v=3"></script>
 
 <?php echo $this->fetch('script'); ?>
 
