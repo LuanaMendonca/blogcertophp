@@ -1,12 +1,17 @@
 <?php
 
 App::uses('AppController', 'Controller');
+
 class UsersController extends AppController
 {
 	public function beforeFilter()
 	{
 		parent::beforeFilter();
-		$this->Auth->allow('add', 'login');
+
+		$this->Auth->allow(
+			'add',
+			'login'
+		);
 	}
 
 	public function login()
@@ -17,9 +22,11 @@ class UsersController extends AppController
 					'Login realizado com sucesso.',
 					'default',
 					array(
-						'class' => 'flash-message flash-success'
+						'class' =>
+							'flash-message flash-success'
 					)
 				);
+
 				return $this->redirect(
 					array(
 						'controller' => 'posts',
@@ -27,11 +34,13 @@ class UsersController extends AppController
 					)
 				);
 			}
+
 			$this->Session->setFlash(
 				'Usuário ou senha inválidos.',
 				'default',
 				array(
-					'class' => 'flash-message flash-error'
+					'class' =>
+						'flash-message flash-error'
 				)
 			);
 		}
@@ -50,7 +59,8 @@ class UsersController extends AppController
 					'Usuário criado com sucesso.',
 					'default',
 					array(
-						'class' => 'flash-message flash-success'
+						'class' =>
+							'flash-message flash-success'
 					)
 				);
 
@@ -60,11 +70,13 @@ class UsersController extends AppController
 					)
 				);
 			}
+
 			$this->Session->setFlash(
 				'Erro ao criar usuário.',
 				'default',
 				array(
-					'class' => 'flash-message flash-error'
+					'class' =>
+						'flash-message flash-error'
 				)
 			);
 		}
@@ -73,63 +85,192 @@ class UsersController extends AppController
 	public function index()
 	{
 		$usuarioLogado = $this->Auth->user();
-		if ($usuarioLogado['role'] != 'superadmin') {
+
+		$ehAdministrador =
+			$usuarioLogado['role'] === 'admin';
+
+		$ehSuperadministrador =
+			$usuarioLogado['role'] === 'superadmin';
+
+		if (
+			!$ehAdministrador &&
+			!$ehSuperadministrador
+		) {
 			throw new ForbiddenException(
-				'Somente o superadministrador pode visualizar os usuários.'
+				'Você não tem permissão para visualizar os usuários.'
 			);
 		}
-		$usuarios = $this->User->find('all');
+
+		$conditions = array();
+
+		if ($ehAdministrador) {
+			$conditions['User.role'] = 'author';
+		}
+
+		$usuarios = $this->User->find(
+			'all',
+			array(
+				'conditions' => $conditions,
+				'order' => array(
+					'User.username' => 'ASC'
+				)
+			)
+		);
+
 		$this->set('usuarios', $usuarios);
 	}
+
 	public function edit($id = null)
 	{
 		if (!$id) {
-			throw new NotFoundException('Usuário não encontrado.');
-		}
-		$usuario = $this->User->findById($id);
-		if (!$usuario) {
-			throw new NotFoundException('Usuário não encontrado.');
-		}
-		$usuarioLogado = $this->Auth->user();
-		if ($usuarioLogado['role'] != 'superadmin') {
-			throw new ForbiddenException(
-				'Somente o superadministrador pode editar usuários.'
+			throw new NotFoundException(
+				'Usuário não encontrado.'
 			);
 		}
-		if ($this->request->is(array('post', 'put'))) {
-			if (empty($this->request->data['User']['password'])) {
-				unset($this->request->data['User']['password']);
-				unset($this->request->data['User']['password_confirm']);
+
+		$usuario = $this->User->findById($id);
+
+		if (!$usuario) {
+			throw new NotFoundException(
+				'Usuário não encontrado.'
+			);
+		}
+
+		$usuarioLogado = $this->Auth->user();
+
+		$ehAdministrador =
+			$usuarioLogado['role'] === 'admin';
+
+		$ehSuperadministrador =
+			$usuarioLogado['role'] === 'superadmin';
+
+		$usuarioEhAutor =
+			$usuario['User']['role'] === 'author';
+
+		$podeEditar =
+			$ehSuperadministrador ||
+			(
+				$ehAdministrador &&
+				$usuarioEhAutor
+			);
+
+		if (!$podeEditar) {
+			throw new ForbiddenException(
+				'Você não tem permissão para editar este usuário.'
+			);
+		}
+
+		$podeAlterarPerfil =
+			$ehSuperadministrador;
+
+		$this->set(
+			compact(
+				'usuario',
+				'podeAlterarPerfil'
+			)
+		);
+
+		if (
+			$this->request->is(
+				array(
+					'post',
+					'put'
+				)
+			)
+		) {
+			if (
+				empty(
+				$this->request->data[
+				'User'
+				]['password']
+				)
+			) {
+				unset(
+					$this->request->data[
+					'User'
+					]['password']
+				);
+
+				unset(
+					$this->request->data[
+					'User'
+					]['confirmPassword']
+				);
 			}
-			if (empty($this->request->data['User']['username'])) {
-				unset($this->request->data['User']['username']);
+
+			if ($ehAdministrador) {
+				$this->request->data[
+				'User'
+				]['role'] = 'author';
 			}
+
 			$this->User->id = $id;
-			if ($this->User->save($this->request->data)) {
+
+			if (
+				$this->User->save(
+					$this->request->data
+				)
+			) {
+				if (
+					(int)$usuarioLogado['id'] ===
+					(int)$id
+				) {
+					$this->Session->write(
+						'Auth.User.username',
+						$this->request->data[
+						'User'
+						]['username']
+					);
+
+					if (
+						isset(
+							$this->request->data[
+							'User'
+							]['role']
+						)
+					) {
+						$this->Session->write(
+							'Auth.User.role',
+							$this->request->data[
+							'User'
+							]['role']
+						);
+					}
+				}
+
 				$this->Session->setFlash(
 					'Usuário editado com sucesso.',
 					'default',
 					array(
-						'class' => 'flash-message flash-success'
+						'class' =>
+							'flash-message flash-success'
 					)
 				);
+
 				return $this->redirect(
 					array(
 						'action' => 'index'
 					)
 				);
 			}
+
 			$this->Session->setFlash(
 				'Erro ao editar o usuário.',
 				'default',
 				array(
-					'class' => 'flash-message flash-error'
+					'class' =>
+						'flash-message flash-error'
 				)
 			);
 		} else {
+			unset(
+				$usuario['User']['password']
+			);
+
 			$this->request->data = $usuario;
 		}
 	}
+
 	public function logout()
 	{
 		$this->Auth->logout();
@@ -138,31 +279,52 @@ class UsersController extends AppController
 			'Você saiu da sua conta.',
 			'default',
 			array(
-				'class' => 'flash-message flash-success'
+				'class' =>
+					'flash-message flash-success'
 			)
 		);
-		return $this->redirect('/posts/visitas');
+
+		return $this->redirect(
+			array(
+				'controller' => 'posts',
+				'action' => 'index'
+			)
+		);
 	}
+
 	public function delete($id = null)
 	{
-		$this->request->onlyAllow('post', 'delete');
+		$this->request->onlyAllow(
+			'post',
+			'delete'
+		);
 
 		$usuarioLogado = $this->Auth->user();
 
 		if (empty($usuarioLogado)) {
-			return $this->redirect(array('action' => 'login'));
+			return $this->redirect(
+				array(
+					'action' => 'login'
+				)
+			);
 		}
 
 		$this->User->id = $id;
 
 		if (!$this->User->exists()) {
-			throw new NotFoundException('Usuário não encontrado.');
+			throw new NotFoundException(
+				'Usuário não encontrado.'
+			);
 		}
 
-		$usuarioExcluido = $this->User->findById($id);
+		$usuarioExcluido =
+			$this->User->findById($id);
 
-		$perfilLogado = $usuarioLogado['role'];
-		$perfilUsuario = $usuarioExcluido['User']['role'];
+		$perfilLogado =
+			$usuarioLogado['role'];
+
+		$perfilUsuario =
+			$usuarioExcluido['User']['role'];
 
 		$ehPropriaConta =
 			(int)$usuarioLogado['id'] ===
@@ -190,12 +352,14 @@ class UsersController extends AppController
 				'Você não tem permissão para excluir este usuário.',
 				'default',
 				array(
-					'class' => 'flash-message flash-error'
+					'class' =>
+						'flash-message flash-error'
 				)
 			);
 
 			return $this->redirect(
 				array(
+					'controller' => 'posts',
 					'action' => 'index'
 				)
 			);
@@ -209,14 +373,15 @@ class UsersController extends AppController
 					'Sua conta e suas postagens foram excluídas.',
 					'default',
 					array(
-						'class' => 'flash-message flash-success'
+						'class' =>
+							'flash-message flash-success'
 					)
 				);
 
 				return $this->redirect(
 					array(
 						'controller' => 'posts',
-						'action' => 'visitas'
+						'action' => 'index'
 					)
 				);
 			}
@@ -225,7 +390,8 @@ class UsersController extends AppController
 				'Usuário e suas postagens foram excluídos com sucesso.',
 				'default',
 				array(
-					'class' => 'flash-message flash-success'
+					'class' =>
+						'flash-message flash-success'
 				)
 			);
 		} else {
@@ -233,7 +399,8 @@ class UsersController extends AppController
 				'Não foi possível excluir o usuário.',
 				'default',
 				array(
-					'class' => 'flash-message flash-error'
+					'class' =>
+						'flash-message flash-error'
 				)
 			);
 		}
@@ -249,27 +416,72 @@ class UsersController extends AppController
 	{
 		$id = $this->Auth->user('id');
 
-		$this->User->id = $id;
+		$usuario = $this->User->findById($id);
 
-		if (!$this->User->exists()) {
-			throw new NotFoundException('Usuário não encontrado.');
+		if (!$usuario) {
+			throw new NotFoundException(
+				'Usuário não encontrado.'
+			);
 		}
 
-		if ($this->request->is(array('post', 'put'))) {
-			$this->request->data['User']['id'] = $id;
+		$this->User->id = $id;
 
-			unset($this->request->data['User']['role']);
+		if (
+			$this->request->is(
+				array(
+					'post',
+					'put'
+				)
+			)
+		) {
+			$this->request->data[
+			'User'
+			]['id'] = $id;
 
-			if (empty($this->request->data['User']['password'])) {
-				unset($this->request->data['User']['password']);
+			unset(
+				$this->request->data[
+				'User'
+				]['role']
+			);
+
+			if (
+				empty(
+				$this->request->data[
+				'User'
+				]['password']
+				)
+			) {
+				unset(
+					$this->request->data[
+					'User'
+					]['password']
+				);
+
+				unset(
+					$this->request->data[
+					'User'
+					]['confirmPassword']
+				);
 			}
 
-			if ($this->User->save($this->request->data)) {
+			if (
+				$this->User->save(
+					$this->request->data
+				)
+			) {
+				$this->Session->write(
+					'Auth.User.username',
+					$this->request->data[
+					'User'
+					]['username']
+				);
+
 				$this->Session->setFlash(
 					'Conta atualizada com sucesso.',
 					'default',
 					array(
-						'class' => 'flash-message flash-success'
+						'class' =>
+							'flash-message flash-success'
 					)
 				);
 
@@ -284,70 +496,18 @@ class UsersController extends AppController
 				'Não foi possível atualizar a conta.',
 				'default',
 				array(
-					'class' => 'flash-message flash-error'
+					'class' =>
+						'flash-message flash-error'
 				)
 			);
 		} else {
-			$this->request->data = $this->User->findById($id);
-
-			unset($this->request->data['User']['password']);
-		}
-	}
-
-	public function minha_conta()
-	{
-	$id = $this->Auth->user('id');
-	$usuario = $this->User->findById($id);
-
-	if (!$usuario) {
-		throw new NotFoundException('Usuário não encontrado.');
-	}
-
-	if ($this->request->is(array('post', 'put'))) {
-
-		if (empty($this->request->data['User']['password'])) {
-			unset($this->request->data['User']['password']);
-			unset($this->request->data['User']['confirmPassword']);
-		}
-
-		unset($this->request->data['User']['role']);
-
-		$this->User->id = $id;
-
-		if ($this->User->save($this->request->data)) {
-			$this->Session->write(
-				'Auth.User.username',
-				$this->request->data['User']['username']
+			unset(
+				$usuario['User']['password']
 			);
 
-			$this->Session->setFlash(
-				'Conta atualizada com sucesso.',
-				'default',
-				array(
-					'class' => 'flash-message flash-success'
-				)
-			);
-
-			return $this->redirect(
-				array(
-					'action' => 'minha_conta'
-				)
-			);
+			$this->request->data = $usuario;
 		}
 
-		$this->Session->setFlash(
-			'Erro ao atualizar a conta.',
-			'default',
-			array(
-				'class' => 'flash-message flash-error'
-			)
-		);
-
-	} else {
-		unset($usuario['User']['password']);
-		$this->request->data = $usuario;
-	}
-
-	$this->set('usuario', $usuario);
+		$this->set('usuario', $usuario);
 	}
 }

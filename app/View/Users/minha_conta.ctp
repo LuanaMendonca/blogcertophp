@@ -1,67 +1,88 @@
 <?php
-$usuarioLogado = $this->Session->read('Auth.User');
+$usuarioLogado =
+	$this->Session->read('Auth.User');
+
+$perfis = array(
+	'author' => 'Autor',
+	'admin' => 'Administrador',
+	'superadmin' => 'Super Administrador'
+);
+
+$perfil =
+	isset($perfis[$usuarioLogado['role']])
+		? $perfis[$usuarioLogado['role']]
+		: $usuarioLogado['role'];
 ?>
 
 <div class="mb-4">
-	<h1 class="page-title mb-1">Minha conta</h1>
+	<h1 class="page-title mb-1">
+		Minha conta
+	</h1>
+
 	<p class="text-muted mb-0">
 		Edite seu nome de usuário ou altere sua senha.
 	</p>
 </div>
 
-<div class="card shadow-sm">
-	<div class="card-body">
+<div class="card form-card shadow-sm">
+	<div class="card-body p-4">
 
 		<?php
 		echo $this->Form->create('User');
+
+		echo $this->Form->input(
+			'username',
+			array(
+				'label' => 'Nome de usuário',
+				'div' => 'form-group',
+				'class' => 'form-control',
+				'pattern' => '[A-Za-z0-9]+',
+				'title' =>
+					'Use apenas letras e números.'
+			)
+		);
+
+		echo $this->Form->input(
+			'password',
+			array(
+				'label' => 'Nova senha',
+				'type' => 'password',
+				'value' => '',
+				'required' => false,
+				'div' => 'form-group',
+				'class' => 'form-control',
+				'minlength' => 3,
+				'maxlength' => 5,
+				'placeholder' =>
+					'Deixe vazio para manter a senha atual'
+			)
+		);
+
+		echo $this->Form->input(
+			'confirmPassword',
+			array(
+				'label' => 'Confirmar nova senha',
+				'type' => 'password',
+				'value' => '',
+				'required' => false,
+				'div' => 'form-group',
+				'class' => 'form-control',
+				'minlength' => 3,
+				'maxlength' => 5
+			)
+		);
 		?>
 
 		<div class="form-group">
-			<?php
-			echo $this->Form->input(
-				'username',
-				array(
-					'label' => 'Nome de usuário',
-					'class' => 'form-control'
-				)
-			);
-			?>
-		</div>
-
-		<div class="form-group">
-			<?php
-			echo $this->Form->input(
-				'password',
-				array(
-					'label' => 'Nova senha',
-					'type' => 'password',
-					'class' => 'form-control',
-					'value' => '',
-					'required' => false,
-					'placeholder' => 'Deixe vazio para manter a senha atual'
-				)
-			);
-
-			echo $this->Form->input('confirmPassword',
-				array(
-					'label' => 'Confirme sua senha',
-					'type' => 'password',
-					'class' => 'form-control',
-					'value' => '',
-					'required' => false,
-				)
-			);
-
-			?>
-		</div>
-
-		<div class="form-group">
-			<label>Perfil</label>
+			<label for="perfil">
+				Perfil
+			</label>
 
 			<input
 				type="text"
+				id="perfil"
 				class="form-control"
-				value="<?php echo h($usuarioLogado['role']); ?>"
+				value="<?php echo h($perfil); ?>"
 				disabled
 			>
 		</div>
@@ -80,7 +101,9 @@ $usuarioLogado = $this->Session->read('Auth.User');
 
 		<hr>
 
-		<h2 class="h5 text-danger">Excluir conta</h2>
+		<h2 class="h5 text-danger">
+			Excluir conta
+		</h2>
 
 		<p class="text-muted">
 			Ao excluir sua conta, todas as suas postagens também serão apagadas.

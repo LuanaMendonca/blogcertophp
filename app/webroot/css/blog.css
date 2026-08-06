@@ -255,6 +255,37 @@ a:hover {
 	vertical-align: middle;
 }
 
+.post-view-card {
+	background: #ffffff;
+	border: 0;
+	border-left: 5px solid #e07a5f;
+	border-radius: 0.65rem;
+}
+
+.post-view-content {
+	overflow-wrap: anywhere;
+	padding-bottom: 0.5rem;
+}
+
+.post-view-divider {
+	border: 0;
+	border-top: 1px solid #e6e1d8;
+	margin: 1.5rem 0 1rem;
+}
+
+.btn-blog-orange {
+	background-color: #e07a5f;
+	border-color: #e07a5f;
+	color: #ffffff;
+}
+
+.btn-blog-orange:hover,
+.btn-blog-orange:focus {
+	background-color: #c96850;
+	border-color: #c96850;
+	color: #ffffff;
+}
+
 @media (max-width: 575.98px) {
 	.hero-section {
 		padding: 2.75rem 1.25rem;

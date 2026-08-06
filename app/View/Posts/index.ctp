@@ -74,14 +74,11 @@ $usuarioLogado = $this->Session->read('Auth.User');
 	</div>
 
 <?php if (!empty($usuarioLogado)): ?>
-
-	<form
 	<form
 		id="filtro-postagens"
 		method="post"
 		action="<?php echo $this->Html->url('/posts/index'); ?>"
 		class="mb-4"
-	>
 	>
 		<div class="form-row align-items-end">
 
@@ -145,28 +142,31 @@ $usuarioLogado = $this->Session->read('Auth.User');
 				</label>
 
 				<input
-					type="date"
+					type="text"
 					name="data_inicial"
 					id="data_inicial"
-					class="form-control"
-					value="<?php echo h(
-						$this->request->query('data_inicial')
-					); ?>"
+					class="form-control campo-data"
+					placeholder="aaaa-mm-dd"
+					autocomplete="off"
+					readonly
+					value="<?php echo h($dataInicial); ?>"
 				>
 			</div>
+
 			<div class="col-md-2 mb-2">
 				<label for="data_final">
 					Data final
 				</label>
 
 				<input
-					type="date"
+					type="text"
 					name="data_final"
 					id="data_final"
-					class="form-control"
-					value="<?php echo h(
-						$this->request->query('data_final')
-					); ?>"
+					class="form-control campo-data"
+					placeholder="aaaa-mm-dd"
+					autocomplete="off"
+					readonly
+					value="<?php echo h($dataFinal); ?>"
 				>
 			</div>
 			<script>

@@ -6,13 +6,6 @@ $usuarioLogado = $this->Session->read('Auth.User');
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-	<link
-		rel="stylesheet"
-		href="https://cdn.jsdelivr.net/npm/bootstrap-datepicker@1.9.0/dist/css/bootstrap-datepicker.min.css"
-	>
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap-datepicker@1.9.0/dist/js/bootstrap-datepicker.min.js"></script>
-
-
 	<?php echo $this->Html->charset(); ?>
 
 	<meta
@@ -25,13 +18,13 @@ $usuarioLogado = $this->Session->read('Auth.User');
 	<link
 		rel="icon"
 		type="image/x-icon"
-		href="<?php echo $this->Html->url('/petblog-favicon.ico'); ?>?v=1"
+		href="<?php echo $this->Html->url('/img/petblog-favicon.ico'); ?>?v=1"
 	>
 
 	<link
 		rel="shortcut icon"
 		type="image/x-icon"
-		href="<?php echo $this->Html->url('/petblog-favicon.ico'); ?>?v=1"
+		href="<?php echo $this->Html->url('/img/petblog-favicon.ico'); ?>?v=1"
 	>
 
 	<link
@@ -41,7 +34,12 @@ $usuarioLogado = $this->Session->read('Auth.User');
 
 	<link
 		rel="stylesheet"
-		href="<?php echo $this->Html->url('/css/blog.css'); ?>?v=2"
+		href="https://cdn.jsdelivr.net/npm/bootstrap-datepicker@1.9.0/dist/css/bootstrap-datepicker.min.css"
+	>
+
+	<link
+		rel="stylesheet"
+		href="<?php echo $this->Html->url('/css/blog.css'); ?>?v=4"
 	>
 
 	<?php
@@ -65,7 +63,9 @@ $usuarioLogado = $this->Session->read('Auth.User');
 						height: 44px;
 						width: 44px;
 						object-fit: contain;
-						filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.15));
+						filter: drop-shadow(
+							0 2px 2px rgba(0, 0, 0, 0.15)
+						);
 					'
 				)
 			)
@@ -88,7 +88,8 @@ $usuarioLogado = $this->Session->read('Auth.User');
 				'action' => 'index'
 			),
 			array(
-				'class' => 'navbar-brand d-flex align-items-center py-0 mr-lg-4',
+				'class' =>
+					'navbar-brand d-flex align-items-center py-0 mr-lg-4',
 				'style' => 'text-decoration: none;',
 				'escape' => false
 			)
@@ -107,8 +108,10 @@ $usuarioLogado = $this->Session->read('Auth.User');
 			<span class="navbar-toggler-icon"></span>
 		</button>
 
-		<div class="collapse navbar-collapse" id="menuPrincipal">
-
+		<div
+			class="collapse navbar-collapse"
+			id="menuPrincipal"
+		>
 			<ul class="navbar-nav mr-auto">
 
 				<li class="nav-item">
@@ -195,12 +198,20 @@ $usuarioLogado = $this->Session->read('Auth.User');
 							$perfis = array(
 								'author' => 'Autor',
 								'admin' => 'Administrador',
-								'superadmin' => 'Super Administrador'
+								'superadmin' =>
+									'Super Administrador'
 							);
 
-							$perfil = isset($perfis[$usuarioLogado['role']])
-								? $perfis[$usuarioLogado['role']]
-								: $usuarioLogado['role'];
+							$perfil =
+								isset(
+									$perfis[
+									$usuarioLogado['role']
+									]
+								)
+									? $perfis[
+								$usuarioLogado['role']
+								]
+									: $usuarioLogado['role'];
 
 							echo h($usuarioLogado['username'])
 								. ' — '
@@ -219,7 +230,8 @@ $usuarioLogado = $this->Session->read('Auth.User');
 								'action' => 'logout'
 							),
 							array(
-								'class' => 'btn btn-outline-light btn-sm'
+								'class' =>
+									'btn btn-outline-light btn-sm'
 							)
 						);
 						?>
@@ -260,7 +272,6 @@ $usuarioLogado = $this->Session->read('Auth.User');
 				<?php endif; ?>
 
 			</ul>
-
 		</div>
 	</div>
 </nav>
@@ -301,9 +312,11 @@ $usuarioLogado = $this->Session->read('Auth.User');
 
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap-datepicker@1.9.0/dist/js/bootstrap-datepicker.min.js"></script>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 
-<script src="<?php echo $this->Html->url('/js/blog.js'); ?>?v=3"></script>
+<script src="<?php echo $this->Html->url('/js/blog.js'); ?>?v=4"></script>
 
 <?php echo $this->fetch('script'); ?>
 

@@ -3,11 +3,14 @@ $(function () {
 		.delay(7000)
 		.fadeOut(500);
 
-	$('#filtro-postagens').on('submit', function () {
-		$(this).find('input, select').each(function () {
-			if ($.trim($(this).val()) === '') {
-				$(this).prop('disabled', true);
-			}
-		});
+	$('.campo-data').datepicker({
+		format: 'yyyy-mm-dd',
+		autoclose: true,
+		todayHighlight: true,
+		enableOnReadonly: true
+	});
+
+	$('.campo-data').on('keydown paste', function (event) {
+		event.preventDefault();
 	});
 });
