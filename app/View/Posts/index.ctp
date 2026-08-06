@@ -143,38 +143,30 @@ $usuarioLogado = $this->Session->read('Auth.User');
 				</label>
 
 				<input
-					type="text"
+					type="date"
 					name="data_inicial"
 					id="data_inicial"
-					class="form-control campo-data"
-					placeholder="aaaa-mm-dd"
-					autocomplete="off"
-					readonly
+					class="form-control"
 					value="<?php echo h(
 						$this->request->query('data_inicial')
 					); ?>"
 				>
 			</div>
-
 			<div class="col-md-2 mb-2">
 				<label for="data_final">
 					Data final
 				</label>
 
 				<input
-					type="text"
+					type="date"
 					name="data_final"
 					id="data_final"
-					class="form-control campo-data"
-					placeholder="aaaa-mm-dd"
-					autocomplete="off"
-					readonly
+					class="form-control"
 					value="<?php echo h(
 						$this->request->query('data_final')
 					); ?>"
 				>
 			</div>
-
 			<script>
 				$(function () {
 					$('.campo-data').datepicker({
