@@ -63,6 +63,29 @@ class PostsController extends AppController
 		$usuarioId = $this->Auth->user('id');
 		$usuarioLogado = !empty($usuarioId);
 
+		$busca = '';
+		$status = '';
+		$dataInicial = '';
+		$dataFinal = '';
+
+		if ($this->request->is('post')) {
+			$busca = isset($this->request->data['busca'])
+				? trim($this->request->data['busca'])
+				: '';
+
+			$status = isset($this->request->data['status'])
+				? $this->request->data['status']
+				: '';
+
+			$dataInicial = isset($this->request->data['data_inicial'])
+				? $this->request->data['data_inicial']
+				: '';
+
+			$dataFinal = isset($this->request->data['data_final'])
+				? $this->request->data['data_final']
+				: '';
+		}
+
 		if ($usuarioLogado) {
 			$conditions['AND'][] = array(
 				'OR' => array(
@@ -75,11 +98,6 @@ class PostsController extends AppController
 					)
 				)
 			);
-
-			$busca = $this->request->query('busca');
-			$status = $this->request->query('status');
-			$dataInicial = $this->request->query('data_inicial');
-			$dataFinal = $this->request->query('data_final');
 
 			if (
 				!empty($status) &&
@@ -126,9 +144,16 @@ class PostsController extends AppController
 			)
 		);
 
-		$this->set('posts', $posts);
+		$this->set(
+			compact(
+				'posts',
+				'busca',
+				'status',
+				'dataInicial',
+				'dataFinal'
+			)
+		);
 	}
-
 	public function view($id = null)
 	{
 		if (!$id) {

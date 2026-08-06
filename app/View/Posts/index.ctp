@@ -76,10 +76,17 @@ $usuarioLogado = $this->Session->read('Auth.User');
 <?php if (!empty($usuarioLogado)): ?>
 
 	<form
+	<form
 		id="filtro-postagens"
-		method="get"
-		action="<?php echo $this->Html->url('/'); ?>"
+		method="post"
+		action="<?php echo $this->Html->url(
+			array(
+				'controller' => 'posts',
+				'action' => 'index'
+			)
+		); ?>"
 		class="mb-4"
+	>
 	>
 		<div class="form-row align-items-end">
 
