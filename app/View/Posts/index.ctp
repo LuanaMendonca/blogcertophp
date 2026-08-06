@@ -79,12 +79,7 @@ $usuarioLogado = $this->Session->read('Auth.User');
 	<form
 		id="filtro-postagens"
 		method="post"
-		action="<?php echo $this->Html->url(
-			array(
-				'controller' => 'posts',
-				'action' => 'index'
-			)
-		); ?>"
+		action="<?php echo $this->Html->url('/posts/index'); ?>"
 		class="mb-4"
 	>
 	>
